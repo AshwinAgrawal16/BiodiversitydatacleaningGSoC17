@@ -1,2 +1,2 @@
 # BiodiversitydatacleaningGSoC17
-Biodiversitydatacleaning
+GSoC 2017 -Biodiversitydatacleaning-Test Solutions
