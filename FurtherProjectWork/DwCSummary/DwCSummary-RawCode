@@ -1,0 +1,190 @@
+library(rgbif)
+library(lattice)
+library(rgdal)
+library(spatstat)
+library(plyr)
+
+d1 <- occ_data(
+  country = "AU",     # Country code for australia
+  classKey= 358,      # Class code for mammalia
+  from = 'gbif',
+  limit=50000,
+  minimal=FALSE,
+  hasCoordinate = T
+  
+)
+
+#X<-read.csv(file = "C:\\yourfile.csv")
+X<-d1$data
+
+View(X)
+d2 <- occ_data(
+  country = "AU",     # Country code for australia
+  classKey= 358,      # Class code for mammalia
+  from = 'gbif',
+  limit=50000,
+  minimal=FALSE,
+  hasCoordinate = T
+  
+)
+
+
+# summary statistics for name field
+c1<-ddply(X,~name,summarise,number_of_distinct_orders=length((name)))
+nrow(c1)
+v1<-max(c1[,2])
+v2<-min(c1[,2])
+print(c1[c1$number_of_distinct_orders==v1,])
+print(c1[c1$number_of_distinct_orders==v2,])
+sum(is.na(X$name))
+
+
+#year
+c2<-ddply(X,~year,summarise,number_of_orders=length((year)))
+
+
+
+#class
+
+
+
+
+
+#country
+
+
+
+
+
+#latitude and longitude-coordinates
+
+# range of the coordinates
+lon1<-max(X[,4])
+lat1<-max(X[,3])
+
+
+#Compute the mean center and standard distance
+# mean center
+
+X1<-X[,4:3]
+dim(X1)
+X1<-unique(X1)
+plot(X1)
+head(X1)
+mc <- apply(X1, 2, mean)
+# standard distance
+sd <- sqrt(sum((X1[,1] - mc[1])^2 + (X1[,2] - mc[2])^2) / nrow(X1))
+
+
+# visualising the data based on measures of central tendency
+plot(X1, col='light blue')
+points(X1, cex=.5)
+points(cbind(mc[1], mc[2]), pch='*', col='red', cex=5)
+
+# make a circle
+bearing <- 1:360 * pi/180
+cx <- mc[1] + sd * cos(bearing)
+cy <- mc[2] + sd * sin(bearing)
+circle <- cbind(cx, cy)
+lines(circle, col='red', lwd=2)
+
+
+d<-dist(X1)
+View(d)
+class(d)
+d<-as.matrix(d)
+d[1:10,1:10]
+diag(d)<-NA
+dmin <- apply(d, 1, min, na.rm=TRUE)
+head(dmin)
+mdmin<-mean(dmin)
+mdmin
+
+#G Function
+max(dmin)
+
+distance <- sort(unique(round(dmin)))
+# compute how many cases there with distances smaller that each x
+Gd <- sapply(distance, function(x) sum(dmin < x))
+# normalize to get values between 0 and 1
+Gd <- Gd / length(dmin)
+plot(distance, Gd)
+
+
+
+u.x<-runif(n=nrow(X1),min = bbox(X1)[1,1],max=bbox(X1)[1,2])
+u.y<-runif(n=nrow(X1),min = bbox(X1)[2,1],max=bbox(X1)[2,2])
+
+plot(u.x)
+plot(u.y)
+
+r.x<-seq(from=min(X1[,1]),to=max(X1[,1]),length=sqrt(nrow(X1)))
+r.y<-seq(from=min(X1[,2]),to=max(X1[,2]),length=sqrt(nrow(X1)))
+r.x<-jitter(rep(r.x,length(r.x)),.001)
+r.y<-jitter(rep(r.y,length(r.y)),.001)
+plot(r.x)
+
+
+km2d<-function(km)
+{
+  out<-(km/1.852)/60
+  return(out)
+}
+
+
+r<-seq(0,km2d(50),length.out = 1000)
+
+env<-envelope(ppp(x=X1[,1],y=X1[,2],window=owin(bbox(X1)[1,],bbox(X1)[2,])),Gest,r=r,nsim=99,nrank=2)
+env.u<-envelope(ppp(x=u.x,y=u.y,window=owin(bbox(X1)[1,],bbox(X1)[2,])),Gest,r=r,nsim=99,nrank=2)
+env.r<-envelope(ppp(x=r.x,y=r.y,window=owin(bbox(X1)[1,],bbox(X1)[2,])),Gest,r=r,nsim=99,nrank=2)
+
+
+plot(env.r)
+
+nrow(X1)
+View(X1)
+plot(X1)
+X1<-as.matrix(X1)
+
+ll<-as.data.frame.matrix(X[,3])
+
+
+ll<-as.double(X[,3])
+IQR(ll,type = 4)
+
+# for clustering of the data
+set.seed(111)
+model<-kmeans(X[1:20000,4:3],centers = 5,nstart = 10)
+model
+
+
+clusplot(X[1:20000,4:3], model$cluster, main='2D representation of the Cluster solution', color=TRUE, shade=TRUE, labels=2, lines=0)
+
+
+
+# distnace between points
+earth.dist <- function (long1, lat1, long2, lat2)
+{
+  rad <- pi/180
+  a1 <- lat1 * rad
+  a2 <- long1 * rad
+  b1 <- lat2 * rad
+  b2 <- long2 * rad
+  dlon <- b2 - a2
+  dlat <- b1 - a1
+  a <- (sin(dlat/2))^2 + cos(a1) * cos(b1) * (sin(dlon/2))^2
+  c <- 2 * atan2(sqrt(a), sqrt(1 - a))
+  R <- 6378.145
+  d <- R * c
+  return(d)
+}
+
+
+X$dist <- earth.dist(X$decimalLongitude, X$decimalLatitude, mean(X$decimalLongitude), mean(X$decimalLatitude))
+
+
+#outliers
+mean(X$dist)
+min(X$dist)
+nrow(X[X$dist >= 400,])
+
