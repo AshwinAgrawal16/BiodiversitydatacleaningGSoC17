@@ -16,7 +16,7 @@ X1$
                         maptype = "satellite", scale = 2)
 
 
-# plotting the map with some points on it
+# plotting the map with some points on i
 ggmap(mapgilbert) +
   geom_point(data = df[1:100,], aes(x = decimalLongitude, y = decimalLatitude, alpha = 0.5, size = name, colour= name ),shape=20) +
   guides(fill=FALSE, alpha=FALSE, size=FALSE)
