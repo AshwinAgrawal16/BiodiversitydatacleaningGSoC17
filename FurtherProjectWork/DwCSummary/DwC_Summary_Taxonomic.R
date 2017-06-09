@@ -14,7 +14,7 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
                               LIMIT=NULL
                               ){
 
-#############    
+##################    
 # Below is the basic outline how I plan to build the taxonomic bdsummary function  
 # Some of the parts are not completed because it the outline and moreover the  
 # remaining part which is not coded is quite similar to the coded part. 
