@@ -131,7 +131,7 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
     }
     
   
-  if(NAME!=NULL){
+  if(NAME==NULL){
   c_1<-ddply(X,~name,summarise,number_of_distinct_orders=length((name)))
   v1<-max(c_1[,2])
   v2<-min(c_1[,2])
@@ -146,7 +146,7 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
     
     }
   }
-  if(COUNTRYCODE!=NULL){
+  if(COUNTRYCODE==NULL){
   c_2<-ddply(X,~countryCode,summarise,number_of_distinct_orders=length((countryCode)))
   v1<-max(c_2[,2])
   v2<-min(c_2[,2])
@@ -161,7 +161,7 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
       
     }
   }
-  if(PHYLUM!=NULL){
+  if(PHYLUM==NULL){
   c_3<-ddply(X,~phylum,summarise,number_of_distinct_orders=length((phylum)))
   v1<-max(c_3[,2])
   v2<-min(c_3[,2])
