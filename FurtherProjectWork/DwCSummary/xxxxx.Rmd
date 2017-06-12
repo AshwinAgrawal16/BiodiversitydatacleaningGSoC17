@@ -1,4 +1,26 @@
+---
+title: "DwC Summary Table-Temporal"
+author: "ASHWIN AGRAWAL"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
 
+#Introduction
+DwC summary table.
+When dealing with large volume of data if initially some information about the 
+data set in provided, it is vital. 
+A DwC summary table is one suvh table which provides the summary of different 
+fields in the data set based on Darwin Core vocabularies.
+Below is the DwC summary table for Temporal fields.
+
+
+
+#Code For the Function
+```c
 DwC_Summary_Temporal<-function(X,DATESTART=NULL,
                                DATEEND=NULL,
                                MONTH=NULL,
@@ -62,13 +84,13 @@ DwC_Summary_Temporal<-function(X,DATESTART=NULL,
      if(is.null(MONTH)){
        c_1<-ddply(X,~month,summarise,number_of_distinct_orders=length((month)))
        
-       tempolar(X1)
-       plot_ly(c_1, x= ~month, y= ~number_of_distinct_orders,type="bar")
+       tempolar(X1,timescale = 'm')
+       
      }
      
      if(is.null(YEAR)){
        c_2<-ddply(X,~year,summarise,number_of_distinct_orders=length((year)))
-       if(nrow(c_2)>10){
+       if(nrow(c_2)>2){
          htmlTable::htmlTable(c_2)
        }
        else{
@@ -83,115 +105,16 @@ DwC_Summary_Temporal<-function(X,DATESTART=NULL,
       names(X1)[names(X1) == "eventDate"] <- "Date_collected"
       chronohorogram(X1)
       
-      c_1<-ddply(X,~month,summarise,number_of_distinct_orders=length((month)))
-      plot_ly(c_1, x= ~month, y= ~number_of_distinct_orders,type="bar")
-      tempolar(X1)
-      
-      c_2<-ddply(X,~year,summarise,number_of_distinct_orders=length((year)))
-      if(nrow(c_2)>10){
-        htmlTable::htmlTable(c_2)
-      }
-      else{
-        plot_ly(c_2, x= ~year, y= ~number_of_distinct_orders,type="bar")
-      }
-    }
-  }  
-}
-
-DwC_Summary_Temporal<-function(X,DATESTART=NULL,
-                               DATEEND=NULL,
-                               MONTH=NULL,
-                               YEAR=NULL){
-  
-  
-  X<-subset(X,select=c(eventDate,month,year))
-  
-  
-  if((nrow(X))==0){
-    stop(sprintf("The data set is empty"))
-  }
-  else{
-    
-    if(((!is.null(DATESTART) && !is.null(DATEEND)) || !is.null(MONTH) || !is.null((YEAR)) )){
-      
-      if((!is.null(DATESTART) && !is.null(DATEEND))){
-        d1<- try( as.Date( DATESTART, format= "%Y-%m-%d %H:%M:%S" ) )
-        d2<- try( as.Date( DATEEND , format= "%Y-%m-%d %H:%M:%S" ) )
-        
-        if( class(d1) == "try-error" || is.na( d1 ) || class( d2 ) == "try-error" || is.na(d2)  ){
-          stop(sprintf("Please enter the date in %Y-%m-%d %H:%M:%S format"))
-        } 
-        else{
-          DATE1 <- as.Date(DATESTART)
-          DATE2 <- as.Date(DATEEND)
-          X<-X[X$eventDate>=DATE1 && X$eventDate<=DATE2,]
-          
-        }
-        if((nrow(X))==0){
-          stop(sprintf("There are no observations between the specified date"))
-        }
-      }
-      
-      if(!is.null(MONTH)){
-        X<-subset(X,month==MONTH)
-        
-        if(MONTH>12 || MONTH<1){
-          stop(sprintf("The month is wrong"))
-        }
-        
-        if((nrow(X))==0){
-          stop(sprintf("There are no observations in the specified month"))
-        }
-      }
-      
-      if(!is.null((YEAR))){
-        X<-subset(X,year==YEAR)
-        
-        if((nrow(X))==0){
-          stop(sprintf(("There are no observations in this year")))
-          
-        }
-      }
-      
-      X1<-X
-      names(X1)[names(X1) == "eventDate"] <- "Date_collected"
-      chronohorogram(X1)
-      
-      
-      if(is.null(MONTH)){
-        c_1<-ddply(X,~month,summarise,number_of_distinct_orders=length((month)))
-        
-        tempolar(X1,timescale = 'm')
-        
-      }
-      
-      if(is.null(YEAR)){
-        c_2<-ddply(X,~year,summarise,number_of_distinct_orders=length((year)))
-        if(nrow(c_2)>2){
-          htmlTable::htmlTable(c_2)
-        }
-        else{
-          plot_ly(c_2, x= ~year, y= ~number_of_distinct_orders,type="bar")
-        }
-      }
-      
-    }
-    
-    else{
-      X1<-X
-      names(X1)[names(X1) == "eventDate"] <- "Date_collected"
-      chronohorogram(X1)
-      
       
       c_1<-ddply(X,~month,summarise,number_of_distinct_orders=length((month)))
       c_1<-na.omit(c_1)
       
       M <- c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
-      barplot(c_1$number_of_distinct_orders,names.arg = M,xlab = "Month",ylab = "number_of_distinct_orders",col = "blue",
-              main = "Monthly Distribution",border = "red")
+        barplot(c_1$number_of_distinct_orders,names.arg = M,xlab = "Month",ylab = "number_of_distinct_orders",col = "blue",
+        main = "Monthly Distribution",border = "red")
       
       
-      
+       
       tempolar(X1,timescale = 'm')
       
       
@@ -207,17 +130,139 @@ DwC_Summary_Temporal<-function(X,DATESTART=NULL,
     }
   }  
 }
+```
 
 
-#Example
-library(rgbif)
-library(plyr)
-library(htmlTable)
-library(bdvis)
-library(plotly)
 
-DwC_Summary_Temporal(X,MONTH = 0)
-DwC_Summary_Temporal(X,MONTH = 2)
-DwC_Summary_Temporal(X,YEAR = 2017)
-DwC_Summary_Temporal(X,YEAR = 2018)
-DwC_Summary_Temporal(X)
+## Summary Statistics
+
+
+
+```{r definition, echo = FALSE}
+DwC_Summary_Temporal<-function(X,DATESTART=NULL,
+                               DATEEND=NULL,
+                               MONTH=NULL,
+                               YEAR=NULL){
+  
+
+  X<-subset(X,select=c(eventDate,month,year))
+
+  
+  if((nrow(X))==0){
+    stop(sprintf("The data set is empty"))
+  }
+  else{
+    
+   if(((!is.null(DATESTART) && !is.null(DATEEND)) || !is.null(MONTH) || !is.null((YEAR)) )){
+    
+    if((!is.null(DATESTART) && !is.null(DATEEND))){
+       d1<- try( as.Date( DATESTART, format= "%Y-%m-%d %H:%M:%S" ) )
+      d2<- try( as.Date( DATEEND , format= "%Y-%m-%d %H:%M:%S" ) )
+      
+      if( class(d1) == "try-error" || is.na( d1 ) || class( d2 ) == "try-error" || is.na(d2)  ){
+        stop(sprintf("Please enter the date in %Y-%m-%d %H:%M:%S format"))
+      } 
+      else{
+        DATE1 <- as.Date(DATESTART)
+        DATE2 <- as.Date(DATEEND)
+        X<-X[X$eventDate>=DATE1 && X$eventDate<=DATE2,]
+        
+      }
+      if((nrow(X))==0){
+        stop(sprintf("There are no observations between the specified date"))
+        }
+      }
+    
+    if(!is.null(MONTH)){
+      X<-subset(X,month==MONTH)
+      
+      if(MONTH>12 || MONTH<1){
+        stop(sprintf("The month is wrong"))
+      }
+      
+      if((nrow(X))==0){
+        stop(sprintf("There are no observations in the specified month"))
+      }
+    }
+     
+    if(!is.null((YEAR))){
+      X<-subset(X,year==YEAR)
+      
+      if((nrow(X))==0){
+        stop(sprintf(("There are no observations in this year")))
+        
+      }
+    }
+     
+     X1<-X
+     names(X1)[names(X1) == "eventDate"] <- "Date_collected"
+     chronohorogram(X1)
+     
+     
+     if(is.null(MONTH)){
+       c_1<-ddply(X,~month,summarise,number_of_distinct_orders=length((month)))
+       
+       tempolar(X1,timescale = 'm')
+       
+     }
+     
+     if(is.null(YEAR)){
+       c_2<-ddply(X,~year,summarise,number_of_distinct_orders=length((year)))
+       if(nrow(c_2)>2){
+         htmlTable::htmlTable(c_2)
+       }
+       else{
+         plot_ly(c_2, x= ~year, y= ~number_of_distinct_orders,type="bar")
+       }
+     }
+     
+   }
+    
+    else{
+      X1<-X
+      names(X1)[names(X1) == "eventDate"] <- "Date_collected"
+      chronohorogram(X1)
+      
+      
+      c_1<-ddply(X,~month,summarise,number_of_distinct_orders=length((month)))
+      c_1<-na.omit(c_1)
+      
+      M <- c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
+        barplot(c_1$number_of_distinct_orders,names.arg = M,xlab = "Month",ylab = "number_of_distinct_orders",col = "blue",
+        main = "Monthly Distribution",border = "red")
+      
+      
+       
+      tempolar(X1,timescale = 'm')
+      
+      
+      
+      c_2<-ddply(X,~year,summarise,number_of_distinct_orders=length((year)))
+      if(nrow(c_2)>2){
+        htmlTable::htmlTable(c_2)
+      }
+      else{
+        
+        plot_ly(c_2, x= ~year, y= ~number_of_distinct_orders,type="bar")
+      }
+    }
+  }  
+}
+```
+
+```{r, fig.show='hold',fig.width = 6 ,fig.height = 5,echo=FALSE}
+suppressMessages(library(rgbif))
+suppressMessages(library(plyr))
+suppressMessages(library(htmlTable))
+suppressMessages(library(bdvis))
+suppressMessages(library(plotly))
+
+
+X<-read.csv(file = "C:\\yourfile.csv")
+(DwC_Summary_Temporal(X))
+```
+
+
+
+
+
