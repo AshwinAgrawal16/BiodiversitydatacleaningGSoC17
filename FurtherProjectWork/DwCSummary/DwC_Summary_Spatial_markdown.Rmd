@@ -15,7 +15,7 @@ When dealing with large volume of data if initially some information about the
 data set in provided, it is vital. 
 A DwC summary table is one suvh table which provides the summary of different 
 fields in the data set based on Darwin Core vocabularies.
-Below is the DwC summary table for Temporal fields.
+Below is the DwC summary table for Spatial fields.
 
 
 
