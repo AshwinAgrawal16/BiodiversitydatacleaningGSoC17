@@ -1,5 +1,5 @@
 ---
-title: "DwC Summary Table-Temporal"
+title: "DwC Summary Table-Spatial"
 author: "ASHWIN AGRAWAL"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
