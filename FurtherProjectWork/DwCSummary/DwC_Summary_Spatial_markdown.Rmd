@@ -23,7 +23,7 @@ Below is the DwC summary table for Spatial fields.
 
 
 ```{r definition1,echo=FALSE,fig.keep='all'}
-MAP<-function(X){
+plot_map<-function(X){
   mapgilbert <- get_map(location = c(lon = mean(X$decimalLongitude), lat = mean(X$decimalLatitude)), zoom = 4,
                         maptype = "terrain", scale = 2)
   
@@ -42,8 +42,11 @@ MAP<-function(X){
   c<-ggmap(mapgilbert) +
     geom_point(data = X, aes(x = decimalLongitude, y = decimalLatitude, alpha = 0.5, size =coordinateUncertaintyInMeters, colour= coordinateUncertaintyInMeters ),shape=20)
     
+  cat(paste("Plot of the data\n"))
   print(a)
+  cat(paste("Plot of the data with coordinate precision\n"))
   print(b)
+  cat(paste("Plot of the data with coordinate uncertainity in meters\n"))
   print(c)
   
   
@@ -76,7 +79,7 @@ MAP<-function(X){
 }
 ```
 ```{r definition2, echo=FALSE,fig.keep='all'}
-CIRCLE<-function(X){
+density_circle<-function(X){
   
   cat(sprintf("Below is the density circle","\n"))
   
@@ -102,7 +105,7 @@ CIRCLE<-function(X){
 }
 ```
 ```{r definition3,echo=FALSE,fig.keep='all'}
-NNN<-function(X){
+nearest_neighour_index<-function(X){
   
   # nearest neighbour index
   X1<-unique(X[,2:1])
@@ -115,11 +118,15 @@ NNN<-function(X){
   cat(paste("The observed nearest neighbour distance is",NNI$observed.mean.distance,"\n"))
   
   if(NNI$NNI>1){
-    cat(paste("The nearest neib=gbhour index is greater that one- ",NNI$NNI," therefore the data is dispersed","\n"))
+    cat(paste("The nearest neigbhour index is greater that one- ",NNI$NNI," therefore the data is dispersed","\n"))
   }
   
   if(NNI$NNI<1){
-    cat(paste("The nearest neib=gbhour index is greater that one-",NNI$NNI," therefore the data is clustered","\n"))
+    cat(paste("The nearest neigbhour index is greater that one-",NNI$NNI," therefore the data is clustered","\n"))
+  }
+  
+  if(NNI$NNI<0.01 && NNI$NNI>-0.01){
+    cat(paste("The nearest neigbhour index is very close to zeor-",NNI$NNI," therefore the data is normal","\n"))
   }
   
   if((NNI$z.score<-2.58 || NNI$NNI>2.58) && NNI$p<0.01){
@@ -148,7 +155,7 @@ NNN<-function(X){
 }
 ```
 ```{r definition4 ,fig.keep='all',echo=FALSE}
-CCC<-function(X,COORDINATEPRECISION=NULL,
+plot_table<-function(X,COORDINATEPRECISION=NULL,
                 COORDINATEUNCERTAINITYINMETERS=NULL){
   
   l <- htmltools::tagList()
@@ -277,20 +284,14 @@ DwC_Summary_spatial<-function(X,DECIMALLATITUDE=NULL,
                        coordinateUncertaintyInMeters))
   
   
-  MAP(X)
+  plot_map(X)
   
+  density_circle(X)
   
-  CIRCLE(X)
+  nearest_neighour_index(X)
   
-  NNN(X)
-  
-  CCC(X)
-  
+  plot_table(X)
 
-  
-  
-  
-  #View(X)
   }
   
 }
@@ -313,8 +314,3 @@ suppressMessages(library(htmlTable))
 X<-read.csv(file = "C:\\yourfile.csv")
 DwC_Summary_spatial(X)
 ```
-
-
-
-
-
