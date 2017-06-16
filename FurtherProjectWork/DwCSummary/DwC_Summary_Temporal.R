@@ -2,10 +2,11 @@
 DwC_Summary_Temporal<-function(X,DATESTART=NULL,
                                DATEEND=NULL,
                                MONTH=NULL,
-                               YEAR=NULL){
+                               YEAR=NULL,
+                               DAY=NULL){
   
 
-  X<-subset(X,select=c(eventDate,month,year))
+  X<-subset(X,select=c(eventDate,month,year,day))
   
   X$eventDate<- as.Date(X$eventDate,
                         format = "%Y-%m-%d")
@@ -16,7 +17,7 @@ DwC_Summary_Temporal<-function(X,DATESTART=NULL,
   }
   else{
     
-   if(((!is.null(DATESTART) && !is.null(DATEEND)) || !is.null(MONTH) || !is.null((YEAR)) )){
+   if(((!is.null(DATESTART) && !is.null(DATEEND)) || !is.null(MONTH) || !is.null((YEAR)) || !is.null(DAY) )){
     
     if((!is.null(DATESTART) && !is.null(DATEEND))){
        d1<- try( as.Date( DATESTART, format= "%Y-%m-%d" ) )
@@ -58,6 +59,15 @@ DwC_Summary_Temporal<-function(X,DATESTART=NULL,
       }
     }
      
+     if(!is.null((DAY))){
+       X<-subset(X,day==DAY)
+       
+       if((nrow(X))==0){
+         stop(sprintf(("There are no observations in this day")))
+         
+       }
+     }
+     
      X1<-X
      names(X1)[names(X1) == "eventDate"] <- "Date_collected"
      chronohorogram(X1)
@@ -80,6 +90,16 @@ DwC_Summary_Temporal<-function(X,DATESTART=NULL,
        }
      }
      
+     if(is.null(DAY)){
+       c_3<-ddply(X,~day,summarise,number_of_distinct_orders=length((day)))
+       if(nrow(c_3)>20){
+         htmlTable::htmlTable(c_3)
+       }
+       else{
+         plot_ly(c_3, x= ~day, y= ~number_of_distinct_orders,type="bar")
+       }
+     }
+     
    }
     
     else{
@@ -98,6 +118,14 @@ DwC_Summary_Temporal<-function(X,DATESTART=NULL,
       else{
         plot_ly(c_2, x= ~year, y= ~number_of_distinct_orders,type="bar")
       }
+      
+      c_3<-ddply(X,~day,summarise,number_of_distinct_orders=length((day)))
+      if(nrow(c_3)>20){
+        htmlTable::htmlTable(c_3)
+      }
+      else{
+        plot_ly(c_3, x= ~day, y= ~number_of_distinct_orders,type="bar")
+      }
     }
   }  
 }
@@ -112,8 +140,20 @@ library(htmlTable)
 library(bdvis)
 library(plotly)
 
+d1 <- occ_data(
+  country = "AU",     # Country code for australia
+  classKey= 359,      # Class code for mammalia
+  from = 'gbif',
+  limit=50000,
+  minimal=FALSE,
+  hasCoordinate = T
+  
+)
+
+X<-d1$data
+
 DwC_Summary_Temporal(X,MONTH = 0)
 DwC_Summary_Temporal(X,MONTH = 2)
 DwC_Summary_Temporal(X,YEAR = 2017)
 DwC_Summary_Temporal(X,YEAR = 2018)
-DwC_Summary_Temporal(X)
+DwC_Summary_Temporal(X,DAY=10)
