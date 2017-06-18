@@ -10,6 +10,7 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
                               SPECIFICEPITHET=NULL,
                               VERNACULARNAME=NULL,
                               INSTITUTIONCODE=NULL,
+                              COLLECTIONCODE=NULL,
                               TAXONRANK=NULL,
                               LIMIT=NULL
                               ){
@@ -43,7 +44,7 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
 
   if(!is.null(COUNTRYCODE) || !is.null(BASIS_OF_RECORD) || !is.null(KINGDOM) || !is.null(PHYLUM) ||
      !is.null(ORDER) || !is.null(NAME) || !is.null(FAMILY) ||  !is.null(GENUS) || !is.null(CLASS) || !is.null(SPECIFICEPITHET) || 
-     !is.null(VERNACULARNAME) || !is.null(INSTITUTIONCODE) || !is.null(TAXONRANK) || is.null(LIMIT)){
+     !is.null(VERNACULARNAME) || !is.null(INSTITUTIONCODE) || !is.null(TAXONRANK) || !is.null(LIMIT) || !is.null(COLLECTIONCODE)){
     
   if(!is.null(COUNTRYCODE)){
     
@@ -130,6 +131,14 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
       }
     }
     
+    if(!is.null(COLLECTIONCODE)){
+      
+      X<-subset(X,collectionCode==COLLECTIONCODE)
+      if(nrow(X)==0){
+        stop(paste("The specific epithet is not valid"))
+      }
+    }
+    
   
   if(is.null(NAME)){
   c_1<-ddply(X,~name,summarise,number_of_distinct_orders=length((name)))
@@ -138,10 +147,9 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
   htmlTable::htmlTable(c_1[c_1$number_of_distinct_orders==v1,])
   htmlTable::htmlTable(c_1[c_1$number_of_distinct_orders==v2,])
   
-    if(nrow(X>10)){
+    if(nrow(c_1)>10){
     htmlTable::htmlTable(c_1)
-    }
-    else{
+    }else{
       plot_ly(c_1, x= ~name, y= ~number_of_distinct_orders,type="bar")
     
     }
@@ -153,10 +161,9 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
   htmlTable::htmlTable(c_2[c_2$number_of_distinct_orders==v1,])
   htmlTable::htmlTable(c_2[c_2$number_of_distinct_orders==v2,])
   
-    if(nrow(X>10)){
-    htmlTable::htmlTable(c_1)
-    }
-    else{
+    if(nrow(c_2)>10){
+    htmlTable::htmlTable(c_2)
+    }else{
     plot_ly(c_2, x= ~countryCode, y= ~number_of_distinct_orders,type="bar")
       
     }
@@ -168,10 +175,9 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
   htmlTable::htmlTable(c_3[c_3$number_of_distinct_orders==v1,])
   htmlTable::htmlTable(c_3[c_3$number_of_distinct_orders==v2,])
      
-  if(nrow(X>10)){
+  if(nrow(c_3)>10){
     htmlTable::htmlTable(c_3)
-  }
-  else{
+  }else{
     plot_ly(c_3, x= ~phylum, y= ~number_of_distinct_orders,type="bar")
     
   }
@@ -184,76 +190,71 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
     htmlTable::htmlTable(c_4[c_4$number_of_distinct_orders==v1,])
     htmlTable::htmlTable(c_4[c_4$number_of_distinct_orders==v2,])
     
-    if(nrow(X>10)){
+    if(nrow(c_4)>10){
       htmlTable::htmlTable(c_4)
-    }
-    else{
+    }else{
       plot_ly(c_4, x= ~order, y= ~number_of_distinct_orders,type="bar")
     
     }
   }
   
-  if(is.null(specificEpithet)){
+  if(is.null(SPECIFICEPITHET)){
     c_5<-ddply(X,~specificEpithet,summarise,number_of_distinct_orders=length((specificEpithet)))
     v1<-max(c_5[,2])
     v2<-min(c_5[,2])
     htmlTable::htmlTable(c_5[c_5$number_of_distinct_orders==v1,])
     htmlTable::htmlTable(c_5[c_5$number_of_distinct_orders==v2,])
     
-    if(nrow(X>10)){
+    if(nrow(c_5)>10){
       htmlTable::htmlTable(c_5)
-    }
-    else{
+    }else{
       plot_ly(c_5, x= ~specificEpithet, y= ~number_of_distinct_orders,type="bar")
       
     }
     
   }
   
-  if(is.null(family)){
+  if(is.null(FAMILY)){
     c_6<-ddply(X,~family,summarise,number_of_distinct_orders=length((family)))
     v1<-max(c_6[,2])
     v2<-min(c_6[,2])
     htmlTable::htmlTable(c_6[c_6$number_of_distinct_orders==v1,])
     htmlTable::htmlTable(c_6[c_6$number_of_distinct_orders==v2,])
     
-    if(nrow(X>10)){
+    if(nrow(c_6)>10){
       htmlTable::htmlTable(c_6)
-    }
-    else{
+    }else{
       plot_ly(c_6, x= ~family, y= ~number_of_distinct_orders,type="bar")
       
     }
   }
  
-  if(is.null(genus)){
+  if(is.null(GENUS)){
     c_7<-ddply(X,~genus,summarise,number_of_distinct_orders=length((genus)))
     v1<-max(c_7[,2])
     v2<-min(c_7[,2])
-    htmlTable::htmlTable(c_6[c_6$number_of_distinct_orders==v1,])
-    htmlTable::htmlTable(c_6[c_6$number_of_distinct_orders==v2,])
+    htmlTable::htmlTable(c_7[c_7$number_of_distinct_orders==v1,])
+    htmlTable::htmlTable(c_7[c_7$number_of_distinct_orders==v2,])
     
-    if(nrow(X>10)){
+    if(nrow(c_7)>10){
       htmlTable::htmlTable(c_7)
-    }
-    else{
+    }else{
       plot_ly(c_7, x= ~genus, y= ~number_of_distinct_orders,type="bar")
       
     }
     
   }
   
-  if(is.null(class)){
+  if(is.null(CLASS)){
     c_8<-ddply(X,~class,summarise,number_of_distinct_orders=length((class)))
     v1<-max(c_8[,2])
     v2<-min(c_8[,2])
     htmlTable::htmlTable(c_8[c_8$number_of_distinct_orders==v1,])
     htmlTable::htmlTable(c_8[c_8$number_of_distinct_orders==v2,])
     
-    if(nrow(X>10)){
+    if(nrow(c_8)>10){
       htmlTable::htmlTable(c_8)
-    }
-    else{
+    }else{
       plot_ly(c_8, x= ~class, y= ~number_of_distinct_orders,type="bar")
       
     }
@@ -261,7 +262,7 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
   }
   
   
-  if(is.null(kingdom)){
+  if(is.null(KINGDOM)){
     
     c_9<-ddply(X,~kingdom,summarise,number_of_distinct_orders=length((kingdom)))
     v1<-max(c_9[,2])
@@ -269,68 +270,64 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
     htmlTable::htmlTable(c_9[c_9$number_of_distinct_orders==v1,])
     htmlTable::htmlTable(c_9[c_9$number_of_distinct_orders==v2,])
     
-    if(nrow(X>10)){
+    if(nrow(c_9)>10){
       htmlTable::htmlTable(c_9)
-    }
-    else{
+    }else{
       plot_ly(c_9, x= ~kingdom, y= ~number_of_distinct_orders,type="bar")
       
     }
   }
   
-  if(is.null(taxonRank)){
+  if(is.null(TAXONRANK)){
     c_10<-ddply(X,~taxonRank,summarise,number_of_distinct_orders=length((taxonRank)))
     v1<-max(c_10[,2])
     v2<-min(c_10[,2])
     htmlTable::htmlTable(c_10[c_10$number_of_distinct_orders==v1,])
     htmlTable::htmlTable(c_10[c_10$number_of_distinct_orders==v2,])
     
-    if(nrow(X>10)){
+    if(nrow(c_10)>10){
       htmlTable::htmlTable(c_10)
-    }
-    else{
-      plot_ly(c_10, x= ~kingdom, y= ~number_of_distinct_orders,type="bar")
+    }else{
+      plot_ly(c_10, x= ~taxonRank, y= ~number_of_distinct_orders,type="bar")
       
     }
     
   }
   
-  if(is.null(collectionCode)){
+  if(is.null(COLLECTIONCODE)){
     c_11<-ddply(X,~collectionCode,summarise,number_of_distinct_orders=length((collectionCode)))
     v1<-max(c_11[,2])
     v2<-min(c_11[,2])
     htmlTable::htmlTable(c_11[c_11$number_of_distinct_orders==v1,])
     htmlTable::htmlTable(c_11[c_11$number_of_distinct_orders==v2,])
     
-    if(nrow(X>10)){
+    if(nrow(c_11)>10){
       htmlTable::htmlTable(c_11)
-    }
-    else{
-      plot_ly(c_11, x= ~kingdom, y= ~number_of_distinct_orders,type="bar")
+    }else{
+      plot_ly(c_11, x= ~collectionCode, y= ~number_of_distinct_orders,type="bar")
       
     }
     
     
   }
   
-  if(is.null(vernacularName)){
+  if(is.null(VERNACULARNAME)){
     c_12<-ddply(X,~vernacularName,summarise,number_of_distinct_orders=length((vernacularName)))
     v1<-max(c_12[,2])
     v2<-min(c_12[,2])
     htmlTable::htmlTable(c_12[c_12$number_of_distinct_orders==v1,])
     htmlTable::htmlTable(c_12[c_12$number_of_distinct_orders==v2,])
     
-    if(nrow(X>10)){
+    if(nrow(c_12)>10){
       htmlTable::htmlTable(c_12)
-    }
-    else{
+    }else{
       plot_ly(c_12, x= ~vernacularName, y= ~number_of_distinct_orders,type="bar")
       
     }
     
   }
   
-  if(is.null(institutionCode)){
+  if(is.null(INSTITUTIONCODE)){
     
     c_13<-ddply(X,~institutionCode,summarise,number_of_distinct_orders=length((institutionCode)))
     v1<-max(c_13[,2])
@@ -338,18 +335,16 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
     htmlTable::htmlTable(c_13[c_13$number_of_distinct_orders==v1,])
     htmlTable::htmlTable(c_13[c_13$number_of_distinct_orders==v2,])
     
-    if(nrow(X>10)){
+    if(nrow(c_13)>10){
       htmlTable::htmlTable(c_13)
-    }
-    else{
+    }else{
       plot_ly(c_13, x= ~institutionCode, y= ~number_of_distinct_orders,type="bar")
       
     }
   }
   
     
-  }
-  else{
+  }else{
     
     
       c_1<-ddply(X,~name,summarise,number_of_distinct_orders=length((name)))
@@ -358,10 +353,9 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
       htmlTable::htmlTable(c_1[c_1$number_of_distinct_orders==v1,])
       htmlTable::htmlTable(c_1[c_1$number_of_distinct_orders==v2,])
       
-      if(nrow(X>10)){
+      if(nrow(c_1)>10){
         htmlTable::htmlTable(c_1)
-      }
-      else{
+      }else{
         plot_ly(c_1, x= ~name, y= ~number_of_distinct_orders,type="bar")
         
       }
@@ -373,10 +367,9 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
       htmlTable::htmlTable(c_2[c_2$number_of_distinct_orders==v1,])
       htmlTable::htmlTable(c_2[c_2$number_of_distinct_orders==v2,])
       
-      if(nrow(X>10)){
-        htmlTable::htmlTable(c_1)
-      }
-      else{
+      if(nrow(c_2)>10){
+        htmlTable::htmlTable(c_2)
+      }else{
         plot_ly(c_2, x= ~countryCode, y= ~number_of_distinct_orders,type="bar")
         
       }
@@ -388,10 +381,9 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
       htmlTable::htmlTable(c_3[c_3$number_of_distinct_orders==v1,])
       htmlTable::htmlTable(c_3[c_3$number_of_distinct_orders==v2,])
       
-      if(nrow(X>10)){
+      if(nrow(c_3)>10){
         htmlTable::htmlTable(c_3)
-      }
-      else{
+      }else{
         plot_ly(c_3, x= ~phylum, y= ~number_of_distinct_orders,type="bar")
         
       }
@@ -404,10 +396,9 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
       htmlTable::htmlTable(c_4[c_4$number_of_distinct_orders==v1,])
       htmlTable::htmlTable(c_4[c_4$number_of_distinct_orders==v2,])
       
-      if(nrow(X>10)){
+      if(nrow(c_4)>10){
         htmlTable::htmlTable(c_4)
-      }
-      else{
+      }else{
         plot_ly(c_4, x= ~order, y= ~number_of_distinct_orders,type="bar")
         
       }
@@ -420,10 +411,9 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
       htmlTable::htmlTable(c_5[c_5$number_of_distinct_orders==v1,])
       htmlTable::htmlTable(c_5[c_5$number_of_distinct_orders==v2,])
       
-      if(nrow(X>10)){
+      if(nrow(c_5)>10){
         htmlTable::htmlTable(c_5)
-      }
-      else{
+      }else{
         plot_ly(c_5, x= ~specificEpithet, y= ~number_of_distinct_orders,type="bar")
         
       }
@@ -436,11 +426,9 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
       v2<-min(c_6[,2])
       htmlTable::htmlTable(c_6[c_6$number_of_distinct_orders==v1,])
       htmlTable::htmlTable(c_6[c_6$number_of_distinct_orders==v2,])
-      
-      if(nrow(X>10)){
+      if(nrow(c_6)>10){
         htmlTable::htmlTable(c_6)
-      }
-      else{
+      }else{
         plot_ly(c_6, x= ~family, y= ~number_of_distinct_orders,type="bar")
         
       }
@@ -450,13 +438,12 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
       c_7<-ddply(X,~genus,summarise,number_of_distinct_orders=length((genus)))
       v1<-max(c_7[,2])
       v2<-min(c_7[,2])
-      htmlTable::htmlTable(c_6[c_6$number_of_distinct_orders==v1,])
-      htmlTable::htmlTable(c_6[c_6$number_of_distinct_orders==v2,])
+      htmlTable::htmlTable(c_7[c_7$number_of_distinct_orders==v1,])
+      htmlTable::htmlTable(c_7[c_7$number_of_distinct_orders==v2,])
       
-      if(nrow(X>10)){
+      if(nrow(c_7)>10){
         htmlTable::htmlTable(c_7)
-      }
-      else{
+      }else{
         plot_ly(c_7, x= ~genus, y= ~number_of_distinct_orders,type="bar")
         
       }
@@ -470,10 +457,9 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
       htmlTable::htmlTable(c_8[c_8$number_of_distinct_orders==v1,])
       htmlTable::htmlTable(c_8[c_8$number_of_distinct_orders==v2,])
       
-      if(nrow(X>10)){
+      if(nrow(c_8)>10){
         htmlTable::htmlTable(c_8)
-      }
-      else{
+      }else{
         plot_ly(c_8, x= ~class, y= ~number_of_distinct_orders,type="bar")
         
       }
@@ -489,10 +475,9 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
       htmlTable::htmlTable(c_9[c_9$number_of_distinct_orders==v1,])
       htmlTable::htmlTable(c_9[c_9$number_of_distinct_orders==v2,])
       
-      if(nrow(X>10)){
+      if(nrow(c_9)>10){
         htmlTable::htmlTable(c_9)
-      }
-      else{
+      }else{
         plot_ly(c_9, x= ~kingdom, y= ~number_of_distinct_orders,type="bar")
         
       }
@@ -505,11 +490,10 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
       htmlTable::htmlTable(c_10[c_10$number_of_distinct_orders==v1,])
       htmlTable::htmlTable(c_10[c_10$number_of_distinct_orders==v2,])
       
-      if(nrow(X>10)){
+      if(nrow(c_10)>10){
         htmlTable::htmlTable(c_10)
-      }
-      else{
-        plot_ly(c_10, x= ~kingdom, y= ~number_of_distinct_orders,type="bar")
+      }else{
+        plot_ly(c_10, x= ~taxonRank, y= ~number_of_distinct_orders,type="bar")
         
       }
       
@@ -522,11 +506,10 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
       htmlTable::htmlTable(c_11[c_11$number_of_distinct_orders==v1,])
       htmlTable::htmlTable(c_11[c_11$number_of_distinct_orders==v2,])
       
-      if(nrow(X>10)){
-        htmlTable::htmlTable(c_11)
-      }
-      else{
-        plot_ly(c_11, x= ~kingdom, y= ~number_of_distinct_orders,type="bar")
+      if(nrow(c_11)>10){
+       htmlTable::htmlTable(c_11)
+      }else{
+        plot_ly(c_11, x= ~collectionCode, y= ~number_of_distinct_orders,type="bar")
         
       }
       
@@ -540,10 +523,9 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
       htmlTable::htmlTable(c_12[c_12$number_of_distinct_orders==v1,])
       htmlTable::htmlTable(c_12[c_12$number_of_distinct_orders==v2,])
       
-      if(nrow(X>10)){
+      if(nrow(c_12)>10){
         htmlTable::htmlTable(c_12)
-      }
-      else{
+      }else{
         plot_ly(c_12, x= ~vernacularName, y= ~number_of_distinct_orders,type="bar")
         
       }
@@ -558,10 +540,9 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
       htmlTable::htmlTable(c_13[c_13$number_of_distinct_orders==v1,])
       htmlTable::htmlTable(c_13[c_13$number_of_distinct_orders==v2,])
       
-      if(nrow(X>10)){
+      if(nrow(c_13)>10){
         htmlTable::htmlTable(c_13)
-      }
-      else{
+      }else{
         plot_ly(c_13, x= ~institutionCode, y= ~number_of_distinct_orders,type="bar")
         
       }
@@ -570,3 +551,19 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
   
   
 }
+
+d1 <- occ_data(
+  country = "AU",     # Country code for australia
+  classKey= 359,      # Class code for mammalia
+  from = 'gbif',
+  limit=50000,
+  minimal=FALSE,
+  hasCoordinate = T
+  
+)
+
+X<-d1$data
+
+bdsummary_taxonomic(X)
+
+

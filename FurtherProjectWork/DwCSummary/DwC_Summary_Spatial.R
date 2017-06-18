@@ -33,16 +33,16 @@ plot_map<-function(X){
   mean_centerX <- mean(X[,1])
   mean_centerY <- mean(X[,2])
   
-  cat(paste("Centre of the data set",mean_centerX,",",mean_centerY,"\n"))
+  cat(sprintf("Centre of the data set- %.4f% .4f\n",mean_centerX,mean_centerY))
   
   standard_deviationX <- sd(X[,1])
   standard_deviationY <- sd(X[,2])
   standard_distance <- sqrt(sum(((X[,1]-mean_centerX)^2+(X[,2]-mean_centerY)^2))/(nrow(X)))
   
-  cat(paste("Standard deviation in coordinates", standard_deviationX,"," ,standard_deviationY,"\n"))
-  cat(paste("Standard distnace of points", standard_distance,"\n"))
+  cat(sprintf("Standard deviation in coordinates %.4f %.4f\n",standard_deviationX,standard_deviationY))
+  cat(sprintf("Standard distnace of points %.4f\n", standard_distance))
   
-  cat(paste("Area of the ploygon formed by the coordinates",pracma::polyarea(X[,1],X[,2]),"\n"))
+  cat(sprintf("Area of the ploygon formed by the coordinates %.4f\n",pracma::polyarea(X[,1],X[,2])))
   
   
   #Inter Quartile range
@@ -80,6 +80,8 @@ density_circle<-function(X){
 
 nearest_neighour_index<-function(X){
   
+  
+  
   # nearest neighbour index
   X1<-unique(X[,2:1])
   sp.mydata <- X1
@@ -87,19 +89,19 @@ nearest_neighour_index<-function(X){
   
   NNI<-spatialEco::nni(sp.mydata)
   
-  cat(paste("The expected nearest neighbour distance is",NNI$expected.mean.distance,"\n"))
-  cat(paste("The observed nearest neighbour distance is",NNI$observed.mean.distance,"\n"))
+  cat(sprintf("The expected nearest neighbour distance is %.4f\n",NNI$expected.mean.distance))
+  cat(sprintf("The observed nearest neighbour distance is %.4f\n",NNI$observed.mean.distance))
   
   if(NNI$NNI>1){
-    cat(paste("The nearest neigbhour index is greater that one- ",NNI$NNI," therefore the data is dispersed","\n"))
+    cat(sprintf("The nearest neigbhour index is greater that one- %.4f therefore the data is dispersed",NNI$NNI))
   }
   
   if(NNI$NNI<1){
-    cat(paste("The nearest neigbhour index is greater that one-",NNI$NNI," therefore the data is clustered","\n"))
+    cat(sprintf("The nearest neigbhour index is greater that one- %.4f therefore the data is clustered",NNI$NNI))
   }
   
   if(NNI$NNI<0.01 && NNI$NNI>-0.01){
-    cat(paste("The nearest neigbhour index is very close to zeor-",NNI$NNI," therefore the data is normal","\n"))
+    cat(sprintf("The nearest neigbhour index is very close to zero- %.4f therefore the data is normal\n",NNI$NNI))
   }
   
   if((NNI$z.score<-2.58 || NNI$NNI>2.58) && NNI$p<0.01){
@@ -122,7 +124,7 @@ nearest_neighour_index<-function(X){
   plot(sp.mydata, pch=20, cex=0.75, col="red", add=TRUE)
   
   cat(paste("The bandwidth for the kernel density is","\n"))
-  cat(paste(kde$bandwidth))
+  cat(sprintf("%.4f",kde$bandwidth))
   cat(paste("\n"))
   
 }
@@ -246,6 +248,8 @@ DwC_Summary_spatial<-function(X,DECIMALLATITUDE=NULL,
   
   
   
+  
+  options(digits = 4)
   if(nrow(X)==0){
     stop(sprintf("The data set is empty"))
   }
