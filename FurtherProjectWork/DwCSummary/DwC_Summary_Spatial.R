@@ -30,6 +30,15 @@ plot_map<-function(X){
             "------",max(X$decimalLatitude,na.rm=T),",",max(X$decimalLongitude,na.rm=T),"\n"))
   
   
+  cat(paste("The bounding box is depicted by\n"))
+  
+  X1<-unique(X[2:1])
+  ggplot() + 
+    geom_point( data=X1, aes(x=decimalLongitude, y=decimalLatitude),colour="black", fill="white" )+
+    xlab('Longitude')+
+    ylab('Latitude')+geom_rect(data=boxes, aes(xmin=minlong , xmax=maxlong, ymin=minlat, ymax=maxlat ), color="red", fill="transparent") + 
+    geom_text(data=boxes, aes(x=labx, y=laby, label=id), color="red")
+  
   mean_centerX <- mean(X[,1])
   mean_centerY <- mean(X[,2])
   
@@ -83,6 +92,15 @@ nearest_neighour_index<-function(X){
   
   
   # nearest neighbour index
+  
+  #The nearest neighbour index is expressed as the ratio of the observed distance divided by the expected
+  #distance. The expected distance is the average distance between neighbours in a hypothetical
+  #random distribution. If the index is less than 1, the pattern exhibits clustering; if the index is
+  #greater than 1, the trend is toward dispersion or competition. The Nearest Neighbour Index is calculated
+  #as: Mean Nearest Neighbour Distance (observed) D(nn) = sum(min(Dij)/N) Mean Random
+  #Distance (expected) D(e) = 0.5 SQRT(A/N) Nearest Neighbour Index NNI = D(nn)/D(e) Where;
+  #D=neighbour distance, A=Area
+  
   X1<-unique(X[,2:1])
   sp.mydata <- X1
   coordinates(sp.mydata) <- ~decimalLongitude+decimalLatitude
