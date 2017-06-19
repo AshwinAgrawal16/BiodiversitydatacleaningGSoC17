@@ -1,3 +1,4 @@
+#Function to plot maps of the data based on coordinate uncertainity in meters and coordinate precision
 plot_map<-function(X){
   mapgilbert <- get_map(location = c(lon = mean(X$decimalLongitude), lat = mean(X$decimalLatitude)), zoom = 4,
                         maptype = "terrain", scale = 2)
@@ -61,6 +62,8 @@ plot_map<-function(X){
   iqr2<-IQR(ll,type=4)
   
 }
+
+# Function to plot a denisty circle, a area encircled which covers the most dense area of points in map.
 
 density_circle<-function(X){
   
@@ -257,6 +260,7 @@ plot_table<-function(X,COORDINATEPRECISION=NULL,
   #l1
 }
 
+#Driver function for whole summary table
 
 DwC_Summary_spatial<-function(X,DECIMALLATITUDE=NULL,
                               DECIMALLONGITUDE=NULL,

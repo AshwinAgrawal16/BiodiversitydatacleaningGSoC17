@@ -41,7 +41,8 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
   if(nrow(X) == 0){
     stop(sprintf("The data set is empty",call.=FALSE))
   }
-
+  
+  # Checking for any field to have values given by user
   if(!is.null(COUNTRYCODE) || !is.null(BASIS_OF_RECORD) || !is.null(KINGDOM) || !is.null(PHYLUM) ||
      !is.null(ORDER) || !is.null(NAME) || !is.null(FAMILY) ||  !is.null(GENUS) || !is.null(CLASS) || !is.null(SPECIFICEPITHET) || 
      !is.null(VERNACULARNAME) || !is.null(INSTITUTIONCODE) || !is.null(TAXONRANK) || !is.null(LIMIT) || !is.null(COLLECTIONCODE)){
@@ -139,7 +140,8 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
       }
     }
     
-  
+  # If any of the field is not specified by the user, then display summary statistics for that field
+    
   if(is.null(NAME)){
   c_1<-ddply(X,~name,summarise,number_of_distinct_orders=length((name)))
   v1<-max(c_1[,2])
@@ -345,7 +347,8 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
   
     
   }else{
-    
+  
+      # If none of the fields is specified by user then print summary statistics for all fields
     
       c_1<-ddply(X,~name,summarise,number_of_distinct_orders=length((name)))
       v1<-max(c_1[,2])
@@ -447,8 +450,6 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
         plot_ly(c_7, x= ~genus, y= ~number_of_distinct_orders,type="bar")
         
       }
-      
-    
     
     
       c_8<-ddply(X,~class,summarise,number_of_distinct_orders=length((class)))
@@ -513,9 +514,6 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
         
       }
       
-      
-    
-    
     
       c_12<-ddply(X,~vernacularName,summarise,number_of_distinct_orders=length((vernacularName)))
       v1<-max(c_12[,2])
@@ -530,9 +528,6 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
         
       }
       
-    
-    
-   
       
       c_13<-ddply(X,~institutionCode,summarise,number_of_distinct_orders=length((institutionCode)))
       v1<-max(c_13[,2])
@@ -551,6 +546,8 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
   
   
 }
+
+#EXAMPLE
 
 d1 <- occ_data(
   country = "AU",     # Country code for australia
