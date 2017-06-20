@@ -33,6 +33,7 @@ plot_map<-function(X){
   
   cat(paste("The bounding box is depicted by\n"))
   
+  #Bounding box figure.
   X1<-unique(X[2:1])
   ggplot() + 
     geom_point( data=X1, aes(x=decimalLongitude, y=decimalLatitude),colour="black", fill="white" )+

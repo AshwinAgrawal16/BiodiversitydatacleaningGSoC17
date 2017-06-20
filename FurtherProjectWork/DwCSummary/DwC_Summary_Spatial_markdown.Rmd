@@ -137,20 +137,20 @@ nearest_neighour_index<-function(X){
   }
   
   #Kernel density
-  sp.mydata <- X
-  coordinates(sp.mydata) <- ~decimalLongitude+decimalLatitude
-  nni(sp.mydata)
-  nni(sp.mydata)
+  #sp.mydata <- X
+  #coordinates(sp.mydata) <- ~decimalLongitude+decimalLatitude
+  #nni(sp.mydata)
+  #nni(sp.mydata)
   #View(coordinates(sp.mydata))
-  kde<-spatialEco::kde2D(sp.mydata)
+  #kde<-spatialEco::kde2D(sp.mydata)
   
-  cat(paste("The plot for kernel density","\n"))
-  plot(kde$kde)
-  plot(sp.mydata, pch=20, cex=0.75, col="red", add=TRUE)
+  #cat(paste("The plot for kernel density","\n"))
+  #plot(kde$kde)
+  #plot(sp.mydata, pch=20, cex=0.75, col="red", add=TRUE)
   
-  cat(paste("The bandwidth for the kernel density is","\n"))
-  cat(paste(kde$bandwidth))
-  cat(paste("\n"))
+  #cat(paste("The bandwidth for the kernel density is","\n"))
+  #cat(paste(kde$bandwidth))
+  #cat(paste("\n"))
   
 }
 ```
@@ -172,7 +172,8 @@ plot_table<-function(X,COORDINATEPRECISION=NULL,
     else{
     c_1<-ddply(XCP,~coordinatePrecision,summarise,number_of_distinct_orders=length((coordinatePrecision)))
     
-    a<-plot_ly(c_1, x= ~coordinatePrecision, y= ~number_of_distinct_orders,type="bar")
+    a<-plot_ly(c_1, x= ~coordinatePrecision, y= ~number_of_distinct_orders,type="bar")%>%
+  layout(title = 'CoordinatePrecision Plot')
     #b<-htmlTable(c_1)
     l[[i]]=b
     i=i+1
@@ -187,7 +188,8 @@ plot_table<-function(X,COORDINATEPRECISION=NULL,
   else{
   c_3<-ddply(X,~coordinatePrecision,summarise,number_of_distinct_orders=length((coordinatePrecision)))
   
-  a<-plot_ly(c_3, x= ~coordinatePrecision, y= ~number_of_distinct_orders,type="bar")
+  a<-plot_ly(c_3, x= ~coordinatePrecision, y= ~number_of_distinct_orders,type="bar")%>%
+  layout(title = 'CoordinatePrecision Plot')
   
   #htmlTable(c_3)
     
@@ -221,7 +223,8 @@ plot_table<-function(X,COORDINATEPRECISION=NULL,
     else{
     c_2<-ddply(XCP,~coordinateUncertaintyInMeters,summarise,number_of_distinct_orders=length((coordinateUncertaintyInMeters)))
     
-    a<-plot_ly(c_2, x= ~coordinatePrecision, y= ~number_of_distinct_orders,type="bar")
+    a<-plot_ly(c_2, x= ~coordinateUncertaintyInMeters, y= ~number_of_distinct_orders,type="bar")%>%
+  layout(title = 'CoordinateUncertaintyInMeters Plot')
     
     #htmlTable(c_2)
     
@@ -239,7 +242,8 @@ plot_table<-function(X,COORDINATEPRECISION=NULL,
   }
   else{
   c_2<-ddply(X,~coordinateUncertaintyInMeters,summarise,number_of_distinct_orders=length((coordinateUncertaintyInMeters)))
-  a<-plot_ly(c_2, x= ~coordinateUncertaintyInMeters, y= ~number_of_distinct_orders,type="bar")
+  a<-plot_ly(c_2, x= ~coordinateUncertaintyInMeters, y= ~number_of_distinct_orders,type="bar")%>%
+  layout(title = 'CoordinateUncertaintyInMeters Plot')
  
   #htmlTable(c_2)
     #htmlTableWidgetOutput(b)

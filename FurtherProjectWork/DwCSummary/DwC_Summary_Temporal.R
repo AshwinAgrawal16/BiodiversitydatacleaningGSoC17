@@ -70,11 +70,25 @@ DwC_Summary_Temporal<-function(X,DATESTART=NULL,
      
      X1<-X
      names(X1)[names(X1) == "eventDate"] <- "Date_collected"
+#The function chronohorogram creates another polar plot representation wherein each day is
+#represented by a color dot, and each year, as a concentric ring in the plot, with 365 dots for
+#each day of that year. The color of the dot summarizes the number of records on that particular
+#day. The color scale is from blue to red, i.e. blue indicated few records and red indicated high 
+#35 volume of records. This function is useful in highlighting the seasonality of the data collection or
+#of the occurrence of the taxa in question. This function is also useful in identifying temporal gaps in data 
+     
      chronohorogram(X1)
      
      
      if(is.null(MONTH)){
        c_1<-ddply(X,~month,summarise,number_of_distinct_orders=length((month)))
+       
+#The function tempolar provides a polar plot of temporal data, which can be plotted using three different time scales (daily, weekly,
+#monthly). The advantage of a polar plot is that the temporal continuity is maintained, in the
+#sense that December connects to January, unlike the typical linear plots. This function is useful
+#in biodiversity data to understand seasonality of data. The graph can be plotted with points (s),
+#lines (r), or polygons (p), or a combination of these types, using the plottype parameter    
+#Records can be averaged over years, rather than plotting raw values, using the avg parameter 
        
        tempolar(X1)
        plot_ly(c_1, x= ~month, y= ~number_of_distinct_orders,type="bar")

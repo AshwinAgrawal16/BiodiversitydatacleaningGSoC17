@@ -98,7 +98,8 @@ DwC_Summary_Temporal<-function(X,DATESTART=NULL,
        a<-htmlTable::htmlTable(c_1)
        l[[i]]=a
        i=i+1
-       b<-plot_ly(c_1, x= ~month, y= ~number_of_distinct_orders,type="bar")
+       b<-plot_ly(c_1, x= ~month, y= ~number_of_distinct_orders,type="bar")%>%
+  layout(title = 'Monthly Plot')
        l[[i]]=b
        i=i+1
        tempolar(X1,timescale = 'm')
@@ -113,7 +114,9 @@ DwC_Summary_Temporal<-function(X,DATESTART=NULL,
          i=i+1
        }
        else{
-         b<-plot_ly(c_2, x= ~year, y= ~number_of_distinct_orders,type="bar")
+         b<-plot_ly(c_2, x= ~year, y= ~number_of_distinct_orders,type="bar")%>%
+  layout(title = 'Yearly Plot')
+         
          l[[i]]=b
          i=i+1
        }
@@ -133,7 +136,8 @@ DwC_Summary_Temporal<-function(X,DATESTART=NULL,
       l[[i]]=a
       i=i+1
       
-      b<-plot_ly(c_1, x= ~month, y= ~number_of_distinct_orders,type="bar")
+      b<-plot_ly(c_1, x= ~month, y= ~number_of_distinct_orders,type="bar")%>%
+  layout(title = 'Monthly Plot')
       l[[i]]=b
       i=i+1
       
@@ -148,7 +152,8 @@ DwC_Summary_Temporal<-function(X,DATESTART=NULL,
       }
       else{
         
-        b<-plot_ly(c_2, x= ~year, y= ~number_of_distinct_orders,type="bar")
+        b<-plot_ly(c_2, x= ~year, y= ~number_of_distinct_orders,type="bar")%>%
+  layout(title = 'Yearly Plot')
         l[[i]]=b
         i=i+1
        }
