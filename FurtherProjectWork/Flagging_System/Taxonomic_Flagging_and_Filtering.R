@@ -48,7 +48,7 @@
 #' X<-d1$data
 #' 
 #' Z1<-Taxonomic_Flagging(X,FLAG_NAME = "name") 
-#' View(Z)
+#' View(Z1)
 #' 
 #' Z2<-Taxonomic_Filtering(X,FLAG_NAME = "name")
 #' View(Z2)
