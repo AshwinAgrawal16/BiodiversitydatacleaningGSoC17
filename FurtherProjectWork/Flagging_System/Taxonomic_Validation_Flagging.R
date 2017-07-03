@@ -40,7 +40,7 @@ Taxonomic_validation_Flagging<-function(X,Species_Name){
       Data_validation$flag_order<-Data_validation$order==out[4,1]
       Data_validation$flag_family<-Data_validation$family==out[5,1]
       Data_validation$flag_genus<-Data_validation$genus==out[6,1]
-      Data_validation$flag_species_name<-Data_validation$name==out[7,1]
+      #Data_validation$flag_species_name<-Data_validation$name==out[7,1]
       
       cat(sprintf("If the flag value is TRUE means the data is correct else there is some discripancy in actual and validated data"))
       
