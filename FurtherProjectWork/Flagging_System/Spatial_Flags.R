@@ -6,6 +6,7 @@
 # we can run it on as much big data set as we like.
 #
 #######
+
 library(sp)
 library(raster)
 library(XML)
@@ -21,6 +22,18 @@ library(foreach)
 library(doParallel)
 library(doSNOW)
 library(rgeos)
+
+# # taxize soap extension for taxize utilizing soap to access the web service
+# # by World register of marine species (worms)
+
+library(devtools)
+
+install.packages(c("XMLSchema", "SSOAP"), 
+                 repos = c("http://packages.ropensci.org", 
+                           "http://cran.rstudio.com"))
+devtools::install_github("ropensci/taxizesoap")
+
+
 library(taxizesoap)
 
 #'Example
