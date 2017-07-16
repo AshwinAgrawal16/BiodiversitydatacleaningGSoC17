@@ -32,6 +32,7 @@ d11 <- occ_data(
   
 )
 
+
 X<-d11$data
 
 
@@ -95,3 +96,5 @@ misClasificError <- mean(fitted.results != testset$V20)
 misClasificError
 print(paste('Accuracy',1-misClasificError))
 # Accuracy about 93% 
+
+table(fitted.results,testset)

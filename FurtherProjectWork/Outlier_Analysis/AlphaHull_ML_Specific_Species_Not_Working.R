@@ -36,7 +36,7 @@ d11 <- occ_data(
   
 )
 S1<-d11$data
-
+#write.csv(S1,"Dasyurus viverrinus.csv")
 S1C<-S1[,4:3]
 #View(S1)
 
@@ -52,6 +52,7 @@ d12 <- occ_data(
 )
 
 S2<-d12$data
+#write.csv(S2,"Macropus rufus.csv")
 S2C<-S2[,4:3]
 #View(S2)
 
@@ -67,6 +68,7 @@ d13 <- occ_data(
 )
 
 S3<-d13$data
+#write.csv(S3,"Petrogale penicillata.csv")
 S3C<-S3[,4:3]
 #View(S3)
 
@@ -83,6 +85,7 @@ d14 <- occ_data(
 )
 
 S4<-d14$data
+#write.csv(S4,"Pseudomys desertor.csv")
 S4C<-S4[,4:3]
 #View(S4)
 
@@ -100,6 +103,7 @@ d15 <- occ_data(
 )
 
 S5<-d15$data
+#write.csv(S5,"Pteropus alecto.csv")
 S5C<-S5[,4:3]
 #View(S5)
 

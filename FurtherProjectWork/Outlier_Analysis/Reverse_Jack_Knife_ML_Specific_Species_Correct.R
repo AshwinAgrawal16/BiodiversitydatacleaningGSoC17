@@ -108,17 +108,13 @@ DATA<-rbind(S1C,S2C,S3C,S4C,S5C)
 
 #View(Z)
 
-Z<-unique(DATA)
+#DATA<-unique(DATA)
 XXXX1<-rjack(DATA$decimalLatitude)
 #XXXX1
 XXXX2<-rjack(DATA$decimalLongitude)
 #XXXX2
 
-
-
-
-
-
+#View(DATA)
 data(wrld_simpl)
 
 wc <- getData('worldclim', res=10, var='bio')
@@ -147,6 +143,12 @@ DATA_ALL[XXXX1,20]<-1
 DATA_ALL[XXXX2,20]<-1
 #View(DATA_ALL)
 DATA_ALL<-na.exclude(DATA_ALL)
+View(DATA_ALL)
+#newData <- DMwR::SMOTE(V20 ~ .,k=1, DATA_ALL, perc.over = 100,perc.under=300)
+#data_balanced_over <- ROSE::ovun.sample(V20 ~ ., data = DATA_ALL, method = "over",p=0.1)$data
+#table(data_balanced_over$V20)
+
+#DATA_ALL<-data_balanced_over
 set.seed(2)
 ind = sample(2, nrow(DATA_ALL), replace = TRUE, prob=c(0.7,0.3)) 
 trainset = DATA_ALL[ind == 1,]
