@@ -1,7 +1,4 @@
 #'
-#'
-#'
-#'
 #' @param 
 #' X (data.frame) Contains biodiversity data from gbif portal
 #'
@@ -99,6 +96,7 @@ Model_Outlier_SVM<-function(X){
 
 DATA<-X[,4:3]
 
+# Alpha Hull approach
 Z<-unique(DATA)
 ahull.obj<-ahull(Z,alpha = 2)
 plot(ahull.obj)
@@ -113,6 +111,8 @@ DATA1<-DATA
 DATA1[,3]<-V
 count<-subset(DATA1,DATA1$V3==0)
 Val2<-nrow(count)
+# This is the condition which checks whether Hull is formed successfully, if not 
+# Reverse Jack knife is used
 if(Val2<=(Val1/2)){
   # head(V)
   
@@ -165,7 +165,7 @@ if(Val2<=(Val1/2)){
   
 }else{
   
-  
+  # Reverse Jack Knife approach
   XXXX1<-rjack((X1$decimalLatitude))
   # XXXX1
   XXXX2<-rjack((X1$decimalLongitude))
@@ -194,15 +194,7 @@ if(Val2<=(Val1/2)){
   # using SVM model for classification
   # This step might take some time
   model <- svm(V20 ~.,family=binomial,data=trainset)
-  
-  # Now this step shows an error because there are no outliers present in the data that is the
-  # outlier column has only zeros and no ones therefore nothing to train on for binary model
-  
-  # This is because all the points in the data above are very close to each other
-  # therefore while using alphaHull the hull or ploygon formed covers each and every
-  # point and no point is flagged as outlier therefore the model fails.
-  # After all there has to be some outliers present to predict them.
-  
+
   summary(model)
   
   fitted.results <- predict(model,newdata=subset(testset,select=c(1:19)),type='response')
