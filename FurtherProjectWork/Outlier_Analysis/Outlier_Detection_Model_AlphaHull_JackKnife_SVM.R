@@ -143,15 +143,6 @@ if(Val2<=(Val1/2)){
   # using SVM model for classification
   # This step might take some time
   model <- svm(V20 ~.,family=binomial,data=trainset)
-  
-  # Now this step shows an error because there are no outliers present in the data that is the
-  # outlier column has only zeros and no ones therefore nothing to train on for binary model
-  
-  # This is because all the points in the data above are very close to each other
-  # therefore while using alphaHull the hull or ploygon formed covers each and every
-  # point and no point is flagged as outlier therefore the model fails.
-  # After all there has to be some outliers present to predict them.
-  
   summary(model)
   
   fitted.results <- predict(model,newdata=subset(testset,select=c(1:19)),type='response')
