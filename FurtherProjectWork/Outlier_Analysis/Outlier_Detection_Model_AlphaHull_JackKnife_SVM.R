@@ -59,7 +59,7 @@
 #' )
 #'
 #' X3<-d11$data
-#' Model_Outlier_SVM(X4)
+#' Model_Outlier_SVM(X3)
 
 #'  d1 <- occ_data(
 #'  country = "IN",     # Country code for australia

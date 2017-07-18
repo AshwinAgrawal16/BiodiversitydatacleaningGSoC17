@@ -33,7 +33,7 @@
 #' )
 #'
 #' X1<-d1111$data
-#' Model_Outlier_SVM(X1)
+#' Model_Outlier_GBM(X1)
 #' 
 #' 
 #'  d111 <- occ_data(
@@ -47,7 +47,7 @@
 #' )
 #'
 #' X2<-d111$data
-#' Model_Outlier_SVM(X2)
+#' Model_Outlier_GBM(X2)
 
 #'  d11 <- occ_data(
 #'  country = "CN",     # Country code for australia
@@ -60,7 +60,7 @@
 #' )
 #'
 #' X3<-d11$data
-#' Model_Outlier_SVM(X4)
+#' Model_Outlier_GBM(X3)
 
 #'  d1 <- occ_data(
 #'  country = "IN",     # Country code for australia
@@ -73,7 +73,7 @@
 #' )
 #'
 #' X4<-d1$data
-#' Model_Outlier_SVM(X4) 
+#' Model_Outlier_GBM(X4) 
 #' 
 #'  d <- occ_data(
 #'  country = "JP",     # Country code for australia
@@ -86,12 +86,12 @@
 #' )
 #'
 #' X5<-d$data
-#' Model_Outlier_SVM(X5)
+#' Model_Outlier_GBM(X5)
 #' 
 #' 
 #' 
 #' 
-Model_Outlier_SVM<-function(X){
+Model_Outlier_GBM<-function(X){
   
   ##########################################
   
