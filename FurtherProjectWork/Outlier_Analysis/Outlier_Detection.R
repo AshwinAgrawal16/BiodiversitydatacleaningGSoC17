@@ -7,7 +7,9 @@
 #' outliers.
 #' If the alpha hull technique dosent converge to from a hull then the reverse jack knife
 #' method is used for identification of outliers.
-#'
+#' 
+#' @return (X) data.frame 
+#'   
 #' @example 
 #' library(alphahull)
 #' library(rgbif)
