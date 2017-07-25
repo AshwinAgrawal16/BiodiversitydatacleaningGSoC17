@@ -1,0 +1,127 @@
+---
+title: "Outlier_Detection"
+author: "Ashwin Agrawal"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The function `Outlier_Detection` identifies geographical and statistical outliers based on two different methods known as `AlphaHull` and `Reverse-Jack-Knife`.
+The link for the description of above methods are:-
+Below is explanation of the function with help of a suitable example using standard GBIF data set.
+
+## Example Data set
+
+The data set used below to explain the function is australian mammals containing 50,000 observations from GBIF portal.
+
+The GBIF R script for downloading above data is shown below.
+```{r def1}
+library(rgbif)
+d1 <- occ_data(
+country = "AU",     # Country code for australia
+classKey= 359,      # Class code for mammalia
+from = 'gbif',
+limit=50000,
+minimal=FALSE,
+hasCoordinate = T
+)
+#X<-read.csv(file = "C:\\yourfile.csv")
+X<-d1$data
+
+knitr::kable(head(X, 10))
+```
+
+## Function Code
+
+```{r def2}
+
+Outlier_Detection<-function(X){
+  
+  ##########################################PART1
+  
+  DATA<-subset(X,select = c(decimalLongitude,decimalLatitude))
+  
+  # Alpha Hull approach
+  Z<-unique(DATA)
+  ahull.obj<-ahull(Z,alpha = 2)
+  cat(sprintf("The plot of the alpha Hull is\n"))
+  plot(ahull.obj)
+  # ashape.obj<-ashape(Z,alpha = 0.2)
+  
+  # View(DATA)
+  # Now checking the points which are in hull using alpha hull and identifying outliers which are outside hull.
+  V<-inahull(ahull.obj,p = cbind(DATA$decimalLongitude,DATA$decimalLatitude))
+  V<-as.integer(V)
+  Val1<-nrow(DATA)
+  DATA1<-DATA
+  DATA1[,3]<-V
+  count<-subset(DATA1,DATA1$V3==0)
+  Val2<-nrow(count)
+  # This is the condition which checks whether Hull is formed successfully, if not 
+  # Reverse Jack knife is used
+  if(Val2<=(Val1/2)){
+    
+    return(DATA1)
+    
+  }
+  ####################################PART2
+  else{
+    cat(sprintf("The alpha Hull method is not working so using the Reverse-Jack-Knife\n"))
+    # Reverse Jack Knife approach
+    XXXX1<-rjack((X1$decimalLatitude))
+    # XXXX1
+    XXXX2<-rjack((X1$decimalLongitude))
+    # XXXX2
+    
+   
+    DATA<-as.data.frame(DATA)
+    #View(DATA_ALL)
+    DATA[,3]<-0
+    DATA[XXXX1,3]<-1
+    DATA[XXXX2,3]<-1
+    
+    return(DATA)
+  }
+  
+}
+
+```
+
+## Explanation of the function code
+The function code is majorly divided ino two parts:-
+PART1:- The Alpha Hull method is used for identifying the outliers by forming a convex hull from coordinates of the points.
+If the Alpha Hull method dosen't converge to form a Hull then we go on to the second method.
+PART2:- In this part Reverse-Jack-Knife method is used to identify the outliers if Alpha Hull is not working.
+
+Finally the function returns a Data Frame which contains the coordinates (decimalLongitude and decimalLatitude) and a column with flags to represent the outliers.
+
+
+## Example Walk Through
+
+The australian mammals Data set:-
+
+```{r def3,echo=FALSE}
+
+knitr::kable(head(X, 10))
+
+```
+
+Now using this data to call the `Outlier_Detection` function to get the results.
+
+```{r def4,echo=FALSE,warning=FALSE}
+library(alphahull)
+library(rgbif)
+library(plyr)
+library(maptools)
+library(raster)
+library(biogeo)
+X1<-Outlier_Detection(X)
+knitr::kable(head(X1, 10))
+
+```
+
+The return value of the function has 3 columns:-
+The first and second column contains the cootdinates and the third column contains the flagged value of 0/1, ie if the value is 1 then the observation is outlier and if 0 then it is not an outlier.

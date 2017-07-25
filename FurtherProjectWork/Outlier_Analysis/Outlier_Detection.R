@@ -90,9 +90,9 @@
 #' 
 Outlier_Detection<-function(X){
   
-  ##########################################
+  ##########################################PART1
   
-  DATA<-X[,4:3]
+  DATA<-subset(X,select = c(decimalLongitude,decimalLatitude))
   
   # Alpha Hull approach
   Z<-unique(DATA)
@@ -115,7 +115,9 @@ Outlier_Detection<-function(X){
     
     return(DATA1)
     
-  }else{
+  }
+  ####################################PART2
+  else{
     
     # Reverse Jack Knife approach
     XXXX1<-rjack((X1$decimalLatitude))
