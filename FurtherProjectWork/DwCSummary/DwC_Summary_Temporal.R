@@ -1,3 +1,46 @@
+#'
+#'
+#' @param  X (data.frame)
+#' @param  DATESTART (date)
+#' @param  DATEEND (date)
+#' @param  MONTH (integer)
+#' @param  YEAR (integer)
+#' @param  DAY (integer)
+#'
+#'
+#' @description 
+#' DwC summary table.
+#' When dealing with large volume of data if initially some information about the 
+#' data set in provided, it is vital. 
+#' A DwC summary table is one suvh table which provides the summary of different 
+#' fields in the data set based on Darwin Core vocabularies.
+#' Below is the DwC summary table for Temporal fields.
+#' 
+#'
+#' @example 
+#' library(rgbif)
+#' library(plyr)
+#' library(htmlTable)
+#' library(bdvis)
+#' library(plotly)
+#' 
+#' d1 <- occ_data(
+#'   country = "AU",     # Country code for australia
+#'   classKey= 359,      # Class code for mammalia
+#'   limit=50000,
+#'   hasCoordinate = T
+#'  
+#' )
+#' 
+#' X<-d1$data
+#' 
+#' DwC_Summary_Temporal(X,MONTH = 0)
+#' DwC_Summary_Temporal(X,MONTH = 2)
+#' DwC_Summary_Temporal(X,YEAR = 2017)
+#' DwC_Summary_Temporal(X,YEAR = 2018)
+#' DwC_Summary_Temporal(X,DAY=10)
+#'
+#'
 
 DwC_Summary_Temporal<-function(X,DATESTART=NULL,
                                DATEEND=NULL,
@@ -68,8 +111,8 @@ DwC_Summary_Temporal<-function(X,DATESTART=NULL,
        }
      }
      
-     X1<-X
-     names(X1)[names(X1) == "eventDate"] <- "Date_collected"
+     data1<-X
+     names(data1)[names(data1) == "eventDate"] <- "Date_collected"
 #The function chronohorogram creates another polar plot representation wherein each day is
 #represented by a color dot, and each year, as a concentric ring in the plot, with 365 dots for
 #each day of that year. The color of the dot summarizes the number of records on that particular
@@ -77,7 +120,7 @@ DwC_Summary_Temporal<-function(X,DATESTART=NULL,
 #35 volume of records. This function is useful in highlighting the seasonality of the data collection or
 #of the occurrence of the taxa in question. This function is also useful in identifying temporal gaps in data 
      
-     chronohorogram(X1)
+     chronohorogram(data1)
      
      
      if(is.null(MONTH)){
@@ -90,7 +133,7 @@ DwC_Summary_Temporal<-function(X,DATESTART=NULL,
 #lines (r), or polygons (p), or a combination of these types, using the plottype parameter    
 #Records can be averaged over years, rather than plotting raw values, using the avg parameter 
        
-       tempolar(X1)
+       tempolar(data1)
        plot_ly(c_1, x= ~month, y= ~number_of_distinct_orders,type="bar")
      }
      
@@ -117,9 +160,9 @@ DwC_Summary_Temporal<-function(X,DATESTART=NULL,
    }
     
     else{
-      X1<-X
-      names(X1)[names(X1) == "eventDate"] <- "Date_collected"
-      chronohorogram(X1)
+      data1<-X
+      names(data1)[names(data1) == "eventDate"] <- "Date_collected"
+      chronohorogram(data1)
       
       c_1<-ddply(X,~month,summarise,number_of_distinct_orders=length((month)))
       plot_ly(c_1, x= ~month, y= ~number_of_distinct_orders,type="bar")
@@ -144,30 +187,3 @@ DwC_Summary_Temporal<-function(X,DATESTART=NULL,
   }  
 }
 
-
-
-
-#Example
-library(rgbif)
-library(plyr)
-library(htmlTable)
-library(bdvis)
-library(plotly)
-
-d1 <- occ_data(
-  country = "AU",     # Country code for australia
-  classKey= 359,      # Class code for mammalia
-  from = 'gbif',
-  limit=50000,
-  minimal=FALSE,
-  hasCoordinate = T
-  
-)
-
-X<-d1$data
-
-DwC_Summary_Temporal(X,MONTH = 0)
-DwC_Summary_Temporal(X,MONTH = 2)
-DwC_Summary_Temporal(X,YEAR = 2017)
-DwC_Summary_Temporal(X,YEAR = 2018)
-DwC_Summary_Temporal(X,DAY=10)
