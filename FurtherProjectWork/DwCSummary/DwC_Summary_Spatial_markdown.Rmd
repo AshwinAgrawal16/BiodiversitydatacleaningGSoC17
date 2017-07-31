@@ -55,25 +55,25 @@ plot_map<-function(X){
             "------",max(X$decimalLatitude,na.rm=T),",",max(X$decimalLongitude,na.rm=T),"\n"))
   
   
-  mean_centerX <- mean(X[,1])
-  mean_centerY <- mean(X[,2])
+  mean_centerX <- mean(as.matrix(X[,1]))
+  mean_centerY <- mean(as.matrix(X[,2]))
   
   cat(paste("Centre of the data set",mean_centerX,",",mean_centerY,"\n"))
   
-  standard_deviationX <- sd(X[,1])
-  standard_deviationY <- sd(X[,2])
+  standard_deviationX <- sd(as.matrix(X[,1]))
+  standard_deviationY <- sd(as.matrix(X[,2]))
   standard_distance <- sqrt(sum(((X[,1]-mean_centerX)^2+(X[,2]-mean_centerY)^2))/(nrow(X)))
   
   cat(paste("Standard deviation in coordinates", standard_deviationX,"," ,standard_deviationY,"\n"))
   cat(paste("Standard distnace of points", standard_distance,"\n"))
   
-  cat(paste("Area of the ploygon formed by the coordinates",pracma::polyarea(X[,1],X[,2]),"\n"))
+  cat(paste("Area of the ploygon formed by the coordinates",pracma::polyarea(as.matrix(X[,1]),as.matrix(X[,2])),"\n"))
   
   
   #Inter Quartile range
-  ll<-as.double(X[,1])
+  ll<-as.matrix(X[,1])
   iqr1<-IQR(ll,type = 4)
-  ll<-as.double(X[,2])
+  ll<-as.matrix(X[,2])
   iqr2<-IQR(ll,type=4)
   
 }

@@ -92,25 +92,25 @@ plot_map<-function(X){
     ylab('Latitude')+geom_rect(data=boxes, aes(xmin=minlong , xmax=maxlong, ymin=minlat, ymax=maxlat ), color="red", fill="transparent") + 
     geom_text(data=boxes, aes(x=labx, y=laby, label=id), color="red")
   
-  mean_centerX <- mean(X[,1])
-  mean_centerY <- mean(X[,2])
+  mean_centerX <- mean(as.matrix(X[,1]))
+  mean_centerY <- mean(as.matrix(X[,2]))
   
   cat(sprintf("Centre of the data set- %.4f% .4f\n",mean_centerX,mean_centerY))
   
-  standard_deviationX <- sd(X[,1])
-  standard_deviationY <- sd(X[,2])
+  standard_deviationX <- sd(as.matrix(X[,1]))
+  standard_deviationY <- sd(as.matrix(X[,2]))
   standard_distance <- sqrt(sum(((X[,1]-mean_centerX)^2+(X[,2]-mean_centerY)^2))/(nrow(X)))
   
   cat(sprintf("Standard deviation in coordinates %.4f %.4f\n",standard_deviationX,standard_deviationY))
   cat(sprintf("Standard distnace of points %.4f\n", standard_distance))
   
-  cat(sprintf("Area of the ploygon formed by the coordinates %.4f\n",pracma::polyarea(X[,1],X[,2])))
+  cat(sprintf("Area of the ploygon formed by the coordinates %.4f\n",pracma::polyarea(as.matrix(X[,1]),as.matrix(X[,2]))))
   
   
   #Inter Quartile range
-  ll<-as.double(X[,1])
+  ll<-as.matrix(X[,1])
   iqr1<-IQR(ll,type = 4)
-  ll<-as.double(X[,2])
+  ll<-as.matrix(X[,2])
   iqr2<-IQR(ll,type=4)
   
 }
