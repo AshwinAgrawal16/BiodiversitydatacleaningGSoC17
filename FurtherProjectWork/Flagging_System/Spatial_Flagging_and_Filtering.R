@@ -42,8 +42,8 @@
 # Function 1-Flagging Wrapper Function
 Spatial_Flagging<-function(X,FLAG_NAME){
   
-  C<-Spatial_Flagging_and_Filtering_Main(X,flag_name=FLAG_NAME,flag=TRUE)
-  return(C)
+  data_flag<-Spatial_Flagging_and_Filtering_Main(X,flag_name=FLAG_NAME,flag=TRUE)
+  return(data_flag)
   
 }
 
@@ -51,8 +51,8 @@ Spatial_Flagging<-function(X,FLAG_NAME){
 
 Spatial_Filtering<-function(X,FLAG_NAME){
   
-  C<-Spatial_Flagging_and_Filtering_Main(X,flag_name = FLAG_NAME,filter=TRUE)
-  return(C)
+  data_filter<-Spatial_Flagging_and_Filtering_Main(X,flag_name = FLAG_NAME,filter=TRUE)
+  return(data_fliter)
 }
 
 # Function 3- Main function

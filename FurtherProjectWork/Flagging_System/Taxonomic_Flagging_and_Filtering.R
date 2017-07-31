@@ -93,10 +93,7 @@ Taxonomic_Flagging_and_Filtering_main<-function(X,flag_name,filter=FALSE,flag=FA
       cat(sprintf("The flag with column name Flag_1 has two values 0/1, if the value is 1 then data field is empty otherwise some data is present\n"))
       return(Data_flag_name)
       }
-      
-      
-# Now only one flag is developed therefore filter data based on one flag only, in future we can add as many flags as required
-# and can give user the option to filter the data based on each flag separately  
+  
       
       if(filter==TRUE){
         X$Flag_1<-Data_flag_name$Flag_1
@@ -130,10 +127,6 @@ Taxonomic_Flagging_and_Filtering_main<-function(X,flag_name,filter=FALSE,flag=FA
           return(Data_flag_name)
         }
         
-        
-        # Now only one flag is developed therefore filter data based on one flag only, in future we can add as many flags as required
-        # and can give user the option to filter the data based on each flag separately  
-        
         if(filter==TRUE){
           X$Flag_1<-Data_flag_name$Flag_1
           X<-subset(X,X$Flag_1==0)
@@ -166,11 +159,7 @@ Taxonomic_Flagging_and_Filtering_main<-function(X,flag_name,filter=FALSE,flag=FA
           cat(sprintf("The flag with column name Flag_1 has two values 0/1, if the value is 1 then data field is empty otherwise some data is present\n"))
           return(Data_flag_name)
         }
-        
-        
-        # Now only one flag is developed therefore filter data based on one flag only, in future we can add as many flags as required
-        # and can give user the option to filter the data based on each flag separately  
-        
+
         if(filter==TRUE){
           X$Flag_1<-Data_flag_name$Flag_1
           X<-subset(X,X$Flag_1==0)
@@ -204,10 +193,6 @@ Taxonomic_Flagging_and_Filtering_main<-function(X,flag_name,filter=FALSE,flag=FA
           return(Data_flag_name)
         }
         
-        
-        # Now only one flag is developed therefore filter data based on one flag only, in future we can add as many flags as required
-        # and can give user the option to filter the data based on each flag separately  
-        
         if(filter==TRUE){
           X$Flag_1<-Data_flag_name$Flag_1
           X<-subset(X,X$Flag_1==0)
@@ -239,11 +224,7 @@ Taxonomic_Flagging_and_Filtering_main<-function(X,flag_name,filter=FALSE,flag=FA
           cat(sprintf("The flag with column name Flag_1 has two values 0/1, if the value is 1 then data field is empty otherwise some data is present\n"))
           return(Data_flag_name)
         }
-        
-        
-        # Now only one flag is developed therefore filter data based on one flag only, in future we can add as many flags as required
-        # and can give user the option to filter the data based on each flag separately  
-        
+
         if(filter==TRUE){
           X$Flag_1<-Data_flag_name$Flag_1
           X<-subset(X,X$Flag_1==0)
@@ -275,11 +256,7 @@ Taxonomic_Flagging_and_Filtering_main<-function(X,flag_name,filter=FALSE,flag=FA
           cat(sprintf("The flag with column name Flag_1 has two values 0/1, if the value is 1 then data field is empty otherwise some data is present\n"))
           return(Data_flag_name)
         }
-        
-        
-        # Now only one flag is developed therefore filter data based on one flag only, in future we can add as many flags as required
-        # and can give user the option to filter the data based on each flag separately  
-        
+
         if(filter==TRUE){
           X$Flag_1<-Data_flag_name$Flag_1
           X<-subset(X,X$Flag_1==0)
@@ -311,11 +288,7 @@ Taxonomic_Flagging_and_Filtering_main<-function(X,flag_name,filter=FALSE,flag=FA
           cat(sprintf("The flag with column name Flag_1 has two values 0/1, if the value is 1 then data field is empty otherwise some data is present\n"))
           return(Data_flag_name)
         }
-        
-        
-        # Now only one flag is developed therefore filter data based on one flag only, in future we can add as many flags as required
-        # and can give user the option to filter the data based on each flag separately  
-        
+
         if(filter==TRUE){
           X$Flag_1<-Data_flag_name$Flag_1
           X<-subset(X,X$Flag_1==0)
@@ -348,11 +321,7 @@ Taxonomic_Flagging_and_Filtering_main<-function(X,flag_name,filter=FALSE,flag=FA
           cat(sprintf("The flag with column name Flag_1 has two values 0/1, if the value is 1 then data field is empty otherwise some data is present\n"))
           return(Data_flag_name)
         }
-        
-        
-        # Now only one flag is developed therefore filter data based on one flag only, in future we can add as many flags as required
-        # and can give user the option to filter the data based on each flag separately  
-        
+
         if(filter==TRUE){
           X$Flag_1<-Data_flag_name$Flag_1
           X<-subset(X,X$Flag_1==0)
@@ -386,10 +355,7 @@ Taxonomic_Flagging_and_Filtering_main<-function(X,flag_name,filter=FALSE,flag=FA
           return(Data_flag_name)
         }
         
-        
-        # Now only one flag is developed therefore filter data based on one flag only, in future we can add as many flags as required
-        # and can give user the option to filter the data based on each flag separately  
-        
+
         if(filter==TRUE){
           X$Flag_1<-Data_flag_name$Flag_1
           X<-subset(X,X$Flag_1==0)
@@ -421,11 +387,7 @@ Taxonomic_Flagging_and_Filtering_main<-function(X,flag_name,filter=FALSE,flag=FA
           cat(sprintf("The flag with column name Flag_1 has two values 0/1, if the value is 1 then data field is empty otherwise some data is present\n"))
           return(Data_flag_name)
         }
-        
-        
-        # Now only one flag is developed therefore filter data based on one flag only, in future we can add as many flags as required
-        # and can give user the option to filter the data based on each flag separately  
-        
+
         if(filter==TRUE){
           X$Flag_1<-Data_flag_name$Flag_1
           X<-subset(X,X$Flag_1==0)
@@ -457,11 +419,7 @@ Taxonomic_Flagging_and_Filtering_main<-function(X,flag_name,filter=FALSE,flag=FA
           cat(sprintf("The flag with column name Flag_1 has two values 0/1, if the value is 1 then data field is empty otherwise some data is present\n"))
           return(Data_flag_name)
         }
-        
-        
-        # Now only one flag is developed therefore filter data based on one flag only, in future we can add as many flags as required
-        # and can give user the option to filter the data based on each flag separately  
-        
+
         if(filter==TRUE){
           X$Flag_1<-Data_flag_name$Flag_1
           X<-subset(X,X$Flag_1==0)
@@ -494,11 +452,7 @@ Taxonomic_Flagging_and_Filtering_main<-function(X,flag_name,filter=FALSE,flag=FA
           cat(sprintf("The flag with column name Flag_1 has two values 0/1, if the value is 1 then data field is empty otherwise some data is present\n"))
           return(Data_flag_name)
         }
-        
-        
-        # Now only one flag is developed therefore filter data based on one flag only, in future we can add as many flags as required
-        # and can give user the option to filter the data based on each flag separately  
-        
+   
         if(filter==TRUE){
           X$Flag_1<-Data_flag_name$Flag_1
           X<-subset(X,X$Flag_1==0)
