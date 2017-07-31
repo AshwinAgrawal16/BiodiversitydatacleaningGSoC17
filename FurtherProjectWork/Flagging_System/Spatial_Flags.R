@@ -36,40 +36,15 @@ devtools::install_github("ropensci/taxizesoap")
 
 library(taxizesoap)
 
-#'Example
-#'
-#'
-#' initLocation()
-#'
-#' cc<-openShape()
-#'
-#' species_opts<-getSpeciesOpts ("Scardinius erythrophthalmus")
-#'
-#' DATA<- occ_search(scientificName = "Scardinius erythrophthalmus",
-#'                               hasCoordinate = TRUE,limit = 500)
-#'
-#' current_occ_chunk<-DATA
-#' current_occ_chunk$data$correction_flag <- 1
-#'
-#' X1<-checkLocation(current_occ_chunk,countries = cc,species_opts = species_opts)
-#' View(X1)
+#' @example 
 #' 
-#' current_occ_chunk<-DATA
-#' current_occ_chunk$data$correction_flag <- 1
+#' example1<-Spatial_Flags(species_name ="Scardinius erythrophthalmus")
+#' View(example1)
+#' example2<-Spatial_Flags(species_name ="Scardinius erythrophthalmus" ,correct_sign = TRUE)
+#' View(example2)
+#' example3<-Spatial_Flags(species_name ="Scardinius erythrophthalmus" ,correct_sign = TRUE,correct_swap=TRUE)
+#' View(example3)
 #'
-#' X2<-correctSign(current_occ_chunk,countries = cc,species_opts = species_opts)
-#' View(X2$data$correction_flag)
-#' 
-#' current_occ_chunk<-DATA
-#' current_occ_chunk$data$correction_flag <- 1
-#'
-#' X3<-correctSwap(current_occ_chunk,countries = cc,species_opts = species_opts)
-#' View(X3$data$correction_flag)
-#'
-#' Here I am directly returning the flagged column only, several preprocessing can be done
-#' according to the workflow of the spatial flagging nad filtering which I will be building.
-#'
-#' 
 #'
 #'
 #' Get the species properties from the worms database to check marine species
@@ -177,8 +152,8 @@ checkLocation <- function(current_occ_chunk, countries, species_opts) {
     check_result[valid_idx] <- countryCode[valid_idx] ==
       intersectingPolygons[valid_idx,]$iso_a2
   }
-  View(check_result)
-  #return (check_result)
+  #View(check_result)
+  return (check_result)
 }
 
 #' Tries to correct the locations by swapping the sign of lat, long, latlong &
@@ -244,7 +219,7 @@ correctSign <- function(current_occ_chunk, countries, species_opts) {
     current_occ_chunk_corrected$data[latlong_correct_idx,]$correction_flag <- 2
   }
   return (current_occ_chunk_corrected)
-  View(current_occ_chunk_corrected$data$correction_flag)
+  #View(current_occ_chunk_corrected$data$correction_flag)
 }
 
 #' Checks if point with lat & long would concure in country shape with country
@@ -290,4 +265,68 @@ correctSwap <- function(current_occ_chunk, countries, species_opts) {
     current_occ_chunk_corrected$data[swap_correct_idx,]$correction_flag <- 2
   }
   return (current_occ_chunk_corrected)
+}
+
+
+#' Wrapper function to initiate the workflow for flagging
+#' @param species_name - The name of the species whose flagging is to be preformed
+#' @param size -The size of the data to be retrieved from portal
+#' @param check_location - If there TRUE then checks the location of each data point 
+#' and flags the data accordingly
+#' @param correct_sign -If TRUE checks any possible sign changes, corrects and flags them.
+#' @param correct_swap -If TRUE checks any possible coordinate swaps, corrects and flag such records
+#' 
+#' @return flags of the particular tests
+Spatial_Flags<-function(species_name=NULL,size=500,check_location=TRUE,correct_sign=FALSE,correct_swap=FALSE){
+  
+   initLocation()
+  
+   countries_list<-openShape()
+  
+   species_opts<-getSpeciesOpts (species_name)
+  
+   DATA<- occ_search(scientificName = species_name,
+                                 hasCoordinate = TRUE,limit = size)
+  
+   
+   #View(DATA$data)
+   result<-data.frame(key=DATA$data$key)
+   if(check_location==TRUE){
+     
+     current_occ_chunk<-DATA
+     current_occ_chunk$data$correction_flag <- 1
+     
+     location_result<-checkLocation(current_occ_chunk,countries = countries_list,species_opts = species_opts)
+  
+     #return(location_result)
+     #View(location_result)
+     result=cbind(result,checklocation=location_result)
+     #View(result)
+   }
+   
+   
+   if(correct_sign==TRUE){
+     current_occ_chunk<-DATA
+     current_occ_chunk$data$correction_flag <- 1
+  
+     sign_result<-correctSign(current_occ_chunk,countries = countries_list,species_opts = species_opts)
+     #return(sign_result)
+     #View(X2$data$correction_flag)
+     result=cbind(result,correctsign=sign_result$data$correction_flag)
+   }
+   
+   
+   if(correct_swap==TRUE){
+     
+     current_occ_chunk<-DATA
+     current_occ_chunk$data$correction_flag <- 1
+  
+     swap_result<-correctSwap(current_occ_chunk,countries = countries_list,species_opts = species_opts)
+     #return(swap_result)
+     #View(X3$data$correction_flag)
+     result=cbind(result,correctswap=swap_result$data$correction_flag)
+   }
+  
+   return(result)
+   #View(result)
 }
