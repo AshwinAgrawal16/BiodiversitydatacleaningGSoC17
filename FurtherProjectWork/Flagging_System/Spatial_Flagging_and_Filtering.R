@@ -20,9 +20,7 @@
 #' d1 <- occ_data(
 #' country = "AU",     # Country code for australia
 #' classKey= 359,      # Class code for mammalia
-#' from = 'gbif',
 #' limit=50000,
-#' minimal=FALSE,
 #' hasCoordinate = T
 #' )
 #' 

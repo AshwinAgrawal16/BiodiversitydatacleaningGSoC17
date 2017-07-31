@@ -12,6 +12,14 @@
 #' library(rgbif)
 #' library(plyr)
 #' 
+#' d1 <- occ_data(
+#' country = "AU",     # Country code for australia
+#' classKey= 359,      # Class code for mammalia
+#' limit=50000,
+#' hasCoordinate = T
+#' )
+#' 
+#' X<-d1$data
 #' CC1<-Taxonomic_validation_Flagging(X,Species_Name = "Bettongia penicillata")
 #' View(CC1)
 #'
