@@ -89,8 +89,8 @@ plot_map<-function(X){
   ggplot() + 
     geom_point( data=data1, aes(x=decimalLongitude, y=decimalLatitude),colour="black", fill="white" )+
     xlab('Longitude')+
-    ylab('Latitude')+geom_rect(data=boxes, aes(xmin=minlong , xmax=maxlong, ymin=minlat, ymax=maxlat ), color="red", fill="transparent") + 
-    geom_text(data=boxes, aes(x=labx, y=laby, label=id), color="red")
+    ylab('Latitude')+geom_rect(data=data1, aes(xmin=minlong , xmax=maxlong, ymin=minlat, ymax=maxlat ), color="red", fill="transparent") + 
+    geom_text(data=data1, aes(x=labx, y=laby, label=id), color="red")
   
   mean_centerX <- mean(as.matrix(X[,1]))
   mean_centerY <- mean(as.matrix(X[,2]))
