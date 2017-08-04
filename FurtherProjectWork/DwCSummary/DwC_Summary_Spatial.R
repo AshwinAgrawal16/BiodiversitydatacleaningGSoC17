@@ -57,17 +57,17 @@ plot_map<-function(X){
   # Normal plotting
   normal_plotting<-ggmap(mapgilbert) +
     geom_point(data = X, aes(x = decimalLongitude, y = decimalLatitude, alpha = 0.8, size=5,colour= 'red',fill="red" ),shape=20) +
-    guides(fill=FALSE, alpha=FALSE, size=FALSE)
+    guides(fill=FALSE, alpha=FALSE, size=FALSE)+ggtitle("The plot of the whole dataset")
   
   
   # Plotting with coordinatePrecision
   coordinatePrecision_plotting<-ggmap(mapgilbert) +
-    geom_point(data = X, aes(x = decimalLongitude, y = decimalLatitude, alpha = 0.5, size =coordinatePrecision, colour= coordinatePrecision ),shape=20)
+    geom_point(data = X, aes(x = decimalLongitude, y = decimalLatitude, alpha = 0.5, size =coordinatePrecision, colour= coordinatePrecision ),shape=20)+ggtitle("The plot of data with coordinate precision")
   
   
   #Plotting with coordinateuncertainityinmeters
   coordinateuncertainityinmeters_plotting<-ggmap(mapgilbert) +
-    geom_point(data = X, aes(x = decimalLongitude, y = decimalLatitude, alpha = 0.5, size =coordinateUncertaintyInMeters, colour= coordinateUncertaintyInMeters ),shape=20)
+    geom_point(data = X, aes(x = decimalLongitude, y = decimalLatitude, alpha = 0.5, size =coordinateUncertaintyInMeters, colour= coordinateUncertaintyInMeters ),shape=20)+ggtitle("The plot of data with coordinate uncertainity in meters")
   
   cat(paste("Plot of the data\n"))
   print(normal_plotting)
@@ -86,11 +86,12 @@ plot_map<-function(X){
   
   #Bounding box figure.
   data1<-unique(X[2:1])
-  ggplot() + 
+  bounding_box<-ggplot() + 
     geom_point( data=data1, aes(x=decimalLongitude, y=decimalLatitude),colour="black", fill="white" )+
     xlab('Longitude')+
-    ylab('Latitude')+geom_rect(data=data1, aes(xmin=minlong , xmax=maxlong, ymin=minlat, ymax=maxlat ), color="red", fill="transparent") + 
-    geom_text(data=data1, aes(x=labx, y=laby, label=id), color="red")
+    ylab('Latitude')+geom_rect(data=data1, aes(xmin=min(data1$decimalLongitude,na.rm=T) , xmax=max(data1$decimalLongitude,na.rm=T), ymin=min(X$decimalLatitude,na.rm=T), ymax=max(X$decimalLatitude,na.rm=T) ), color="red", fill="transparent") + 
+    ggtitle("Plot representing the bounding box of data")
+  print(bounding_box)
   
   mean_centerX <- mean(as.matrix(X[,1]))
   mean_centerY <- mean(as.matrix(X[,2]))
@@ -140,6 +141,7 @@ density_circle<-function(X){
   cy <- mean_centre[2] + sd * sin(bearing)
   circle <- cbind(cx, cy)
   lines(circle, col='red', lwd=2)
+  title(main = "Plot for desnity circle")
 }
 
 nearest_neighour_index<-function(X){
@@ -195,6 +197,7 @@ nearest_neighour_index<-function(X){
   cat(paste("The plot for kernel density","\n"))
   plot(kde$kde)
   plot(sp.mydata, pch=20, cex=0.75, col="red", add=TRUE)
+  title(main = "Plot for kernel density")
   
   cat(paste("The bandwidth for the kernel density is","\n"))
   cat(sprintf("%.4f",kde$bandwidth))
@@ -343,4 +346,5 @@ DwC_Summary_spatial<-function(X,DECIMALLATITUDE=NULL,
   }
   
 }
+
 
