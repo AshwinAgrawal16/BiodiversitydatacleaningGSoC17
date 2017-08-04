@@ -25,7 +25,7 @@ suppressMessages(library(htmlTable))
 d1 <- occ_data(
   country = "AU",     # Country code for australia
   classKey= 359,      # Class code for mammalia
-  limit=5000,
+  limit=50000,
   hasCoordinate = T
   
 )
@@ -45,7 +45,7 @@ Inputs {.sidebar}
     selected = 1)
 ```
 
-Plotting the data based on year identified.
+Plotting the data based on month identified.
 Sample data used is Australian Mammals.
 
 ```{r}
@@ -54,7 +54,7 @@ Sample data used is Australian Mammals.
     selected = 2016)
 ```
 
-Plotting the data based on month identified.
+Plotting the data based on year identified.
 Sample data used is Australian Mammals.
 
 ```{r}
@@ -63,8 +63,8 @@ selectedData <- reactive({
   
   #X<-subset(X,select=c(eventDate,month,year))
   num <- reactive(as.integer(input$clusterNum))
-  XCP<-subset(X,X$year==num())
-  XCP
+  data_year<-subset(X,X$year==num())
+  data_year
    
 })
 ```
@@ -75,8 +75,8 @@ selectedData1<- reactive({
   
   #X<-subset(X,select=c(eventDate,month,year))
   num1 <- reactive(as.integer(input$clusterNum1))
-  XCP1<-subset(X,X$month==num1())
-  XCP1
+  month_data<-subset(X,X$month==num1())
+  month_data
     
 })
 ```
@@ -107,9 +107,9 @@ library(ggplot2)
 library(bdvis)
  
   renderPlot({
-    X1<-selectedData1()
-    names(X1)[names(X1) == "eventDate"] <- "Date_collected"
-     chronohorogram(X1)
+    data_bdvis<-selectedData1()
+    names(data_bdvis)[names(data_bdvis) == "eventDate"] <- "Date_collected"
+     chronohorogram(data_bdvis)
  
   
   })
@@ -138,9 +138,9 @@ renderPlot({
 library(bdvis)
 
 renderPlot({
-   X1<-selectedData()
-    names(X1)[names(X1) == "eventDate"] <- "Date_collected"
-     tempolar(X1,timescale = "m")
+   data_tempolar<-selectedData()
+    names(data_tempolar)[names(data_tempolar) == "eventDate"] <- "Date_collected"
+     tempolar(data_tempolar,timescale = "m")
   
 })
 ```

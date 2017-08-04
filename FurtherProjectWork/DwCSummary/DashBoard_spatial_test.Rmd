@@ -62,9 +62,9 @@ Sample data used is Australian Mammals.
 selectedData <- reactive({
   
   num <- reactive(as.integer(input$clusterNum))
-  XCP<-subset(X,X$coordinateUncertaintyInMeters<num())
+  coordinate_uncertainity_meters_data<-subset(X,X$coordinateUncertaintyInMeters<num())
     
-    c_2<-ddply(XCP,~coordinateUncertaintyInMeters,summarise,number_of_distinct_orders=length((coordinateUncertaintyInMeters)))
+    c_2<-ddply(coordinate_uncertainity_meters_data,~coordinateUncertaintyInMeters,summarise,number_of_distinct_orders=length((coordinateUncertaintyInMeters)))
     
     c_2
 })
@@ -74,9 +74,9 @@ selectedData <- reactive({
 selectedData1 <- reactive({
   
   num1 <- reactive(as.double(input$clusterNum1))
-  XCP1<-subset(X,X$coordinatePrecision<=num1())
+  coordinate_precision_data<-subset(X,X$coordinatePrecision<=num1())
     
-    c_1<-ddply(XCP1,~coordinatePrecision,summarise,number_of_distinct_orders=length((coordinatePrecision)))
+    c_1<-ddply(coordinate_precision_data,~coordinatePrecision,summarise,number_of_distinct_orders=length((coordinatePrecision)))
     
     c_1
 })
@@ -97,17 +97,17 @@ Row{.tabset}
   
   #Plotting with coordinateuncertainityinmeters
   
-  XCU<-subset(X,X$coordinateUncertaintyInMeters<num())
-  if(nrow(XCU)>0)
+  coordinate_uncertainity_meters_data<-subset(X,X$coordinateUncertaintyInMeters<num())
+  if(nrow(coordinate_uncertainity_meters_data)>0)
   {
-  c<-ggmap(mapgilbert) +
-    geom_point(data = XCU, aes(x = decimalLongitude, y = decimalLatitude, alpha = 0.5, size =coordinateUncertaintyInMeters, colour= coordinateUncertaintyInMeters ),shape=20)
-  print(c)
+  map_1<-ggmap(mapgilbert) +
+    geom_point(data = coordinate_uncertainity_meters_data, aes(x = decimalLongitude, y = decimalLatitude, alpha = 0.5, size =coordinateUncertaintyInMeters, colour= coordinateUncertaintyInMeters ),shape=20)
+  print(map_1)
     } else{
     
-    c<-ggmap(mapgilbert) +
+    map_2<-ggmap(mapgilbert) +
     geom_point(data = X, aes(x = decimalLongitude, y = decimalLatitude, alpha = 0.5, size =coordinateUncertaintyInMeters, colour= coordinateUncertaintyInMeters ),shape=20)
-  print(c)
+  print(map_2)
     }
  
   
@@ -143,17 +143,17 @@ Row{.tabset}
   
   #Plotting with coordinatePrecision
   
-  XCU<-subset(X,X$coordinatePrecision<=num1())
-  if(nrow(XCU)>0)
+  coordinate_precision_data<-subset(X,X$coordinatePrecision<=num1())
+  if(nrow(coordinate_precision_data)>0)
   {
-  c<-ggmap(mapgilbert) +
-    geom_point(data = XCU, aes(x = decimalLongitude, y = decimalLatitude, alpha = 0.5, size =coordinatePrecision, colour=coordinatePrecision ),shape=20)
-  print(c)
+  map_1<-ggmap(mapgilbert) +
+    geom_point(data = coordinate_precision_data, aes(x = decimalLongitude, y = decimalLatitude, alpha = 0.5, size =coordinatePrecision, colour=coordinatePrecision ),shape=20)
+  print(map_1)
     } else{
     
-    c<-ggmap(mapgilbert) +
+    map_2<-ggmap(mapgilbert) +
     geom_point(data = X, aes(x = decimalLongitude, y = decimalLatitude, alpha = 0.5, size =coordinatePrecision, colour=coordinatePrecision ),shape=20)
-  print(c)
+  print(map_2)
     }
  
   
