@@ -1,9 +1,8 @@
 
-
 ## Read integer function
-readinteger <- function()
+readinteger <- function(prompt="Enter an integer:")
 { 
-  n <- readline(prompt="Enter an integer: ")
+  n <- readline(prompt=prompt)
   if(!grepl("^[0-9]+$",n))
   {
     return(readinteger())
@@ -22,9 +21,9 @@ IsDate <- function(mydate, date.format = "%Y-%m-%d") {
 }
 
 
-readdate <- function()
+readdate <- function(prompt="Enter a date: ")
 { 
-  n <- readline(prompt="Enter a date: ")
+  n <- readline(prompt=prompt)
   if(IsDate(n))
   {
     return(n)
