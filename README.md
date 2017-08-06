@@ -1,12 +1,39 @@
 # BiodiversitydatacleaningGSoC17
-GSoC 2017 -Biodiversitydatacleaning-Test Solutions
+GSoC 2017 -Biodiversitydatacleaning
 
-Easy Test Case:Test1Plotting.
+Currently there are three tasks in the package:-
 
-Medium Test Case:DateTest.R
+# 1) DwC Summary Table:-
 
-Hard Test Case:
+This contains 3 funtions and 2 shiny flexboards.
 
-Spatial Test: CentroidTest.R
+Use cases for testing the functions:-
 
-2 Dimentional Test: Centroid2DTest.R
+1) DwC_Summary_Spatial:-
+
+```
+suppressMessages(library(rgbif))
+suppressMessages(library(sp))
+suppressMessages(library(spatialEco))
+suppressMessages(library(ggmap))
+suppressMessages(library(plyr))
+suppressMessages(library(htmlTable))
+suppressMessages(library(bdvis))
+suppressMessages(library(plotly))
+suppressMessages(library(pracma))
+suppressMessages(library(xtable))
+suppressMessages(library(htmlTable))
+
+d1 <- occ_data(
+country = "AU",     # Country code for australia
+classKey= 359,      # Class code for mammalia
+limit=50000,
+hasCoordinate = T
+ 
+)
+
+X<-d1$data
+
+
+DwC_Summary_spatial(X)
+```
