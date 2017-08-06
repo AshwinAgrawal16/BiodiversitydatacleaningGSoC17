@@ -55,3 +55,12 @@ data_subset<-subset(data,data$decimalLatitude<n)
 View(data_subset)
 
 #Similarly many filtering and flagging can be performed based on given inputs.
+
+
+
+# Another Method to take input...This method is internally used in devtools for taking
+# input. 
+# If you enter "Yes" it will return 1 and if you enter "No" it will return 0, otherwise
+# it will display an message saying enter choice from given list.
+
+menu(c("Yes", "No"), title="Do you want this?")
