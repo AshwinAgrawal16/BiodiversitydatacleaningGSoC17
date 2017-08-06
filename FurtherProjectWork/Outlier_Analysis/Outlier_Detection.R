@@ -31,7 +31,7 @@
 #' 
 #' 
 #'  d111 <- occ_data(
-#'  country = "US",     # Country code for australia
+#'  country = "US",     # Country code for USA
 #'  classKey= 359,      # Class code for mammalia
 #'  limit=50000,
 #'  hasCoordinate = T
@@ -42,7 +42,7 @@
 #' Outlier_Detection(X2)
 
 #'  d11 <- occ_data(
-#'  country = "CN",     # Country code for australia
+#'  country = "CN",     # Country code for Cannada
 #'  classKey= 359,      # Class code for mammalia
 #'  limit=50000,
 #'  hasCoordinate = T
@@ -53,7 +53,7 @@
 #' Outlier_Detection(X3)
 
 #'  d1 <- occ_data(
-#'  country = "IN",     # Country code for australia
+#'  country = "IN",     # Country code for India
 #'  classKey= 359,      # Class code for mammalia
 #'  limit=50000,
 #'  hasCoordinate = T
@@ -64,7 +64,7 @@
 #' Outlier_Detection(X4) 
 #' 
 #'  d <- occ_data(
-#'  country = "JP",     # Country code for australia
+#'  country = "JP",     # Country code for Japan
 #'  classKey= 359,      # Class code for mammalia
 #'  limit=50000,
 #'  hasCoordinate = T
