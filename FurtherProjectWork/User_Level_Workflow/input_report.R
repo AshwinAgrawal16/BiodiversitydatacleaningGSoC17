@@ -8,6 +8,7 @@ questions<-c("Taxonomic Level","Mistached Names","Spatial Resolution","Region of
 
 responses<-c(0)
 flags<-c(0)
+i=0
 
 read_taxonomic_input <- function(prompt2="What is the lowest taxonomic level you require in your data.
 1) Sub-species 2) Species 3) Genus 4) Family")
