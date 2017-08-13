@@ -2,13 +2,6 @@
 
 # Workflow for taking input from the user based on the questions
 
-# Vector for questions tags.
-questions<-c("Taxonomic Level","Mistached Names","Spatial Resolution","Region of interest",
-           "Dates","Earliest Date","Temporal Resolution")
-
-responses<-c(0)
-flags<-c(0)
-i=0
 
 read_taxonomic_input <- function(prompt2="What is the lowest taxonomic level you require in your data.
 1) Sub-species 2) Species 3) Genus 4) Family")
@@ -16,20 +9,20 @@ read_taxonomic_input <- function(prompt2="What is the lowest taxonomic level you
   input_1 <- readline(prompt=prompt2)
   if(as.integer(input_1)==1 || as.integer(input_1)==2 || as.integer(input_1)==3 || as.integer(input_1)==4){
     if(as.integer(input_1)==1){
-      Responses[i]="Sub-species"
-      i=i+1
+      return("Sub-species")
+      
     }
     else if(as.integer(input_1)==2){
-      Responses[i]="Species"
-      i=i+1
+      return("Species")
+    
     }
     else if(as.integer(input_1)==3){
-      Responses[i]="Genus"
-      i=i+1
+      return("Genus")
+    
     }
     else {
-      Responses[i]="Family"
-      i=i+1
+      return("Family")
+    
     }
     
   }else{
@@ -40,18 +33,19 @@ read_taxonomic_input <- function(prompt2="What is the lowest taxonomic level you
 }
 
 
+
 read_mismatch_input <- function(prompt2="What you want to do with data with mismatched names
 1) Try to match 2) Remove")
 { 
   input_1 <- readline(prompt=prompt2)
   if(as.integer(input_1)==1 || as.integer(input_1)==2){
     if(as.integer(input_1)==1){
-      Responses[i]="Match"
-      i=i+1
+      return("Match")
+     
     }
     else{
-      Responses[i]="Remove"
-      i=i+1
+      return("Remove")
+      
     }
     
   }else{
@@ -65,28 +59,28 @@ read_mismatch_input <- function(prompt2="What you want to do with data with mism
 read_spatial_resolution_input <- function(prompt2="What is the spatial resolution required for your data")
 { 
   input_1 <- readline(prompt=prompt2)
-  responses[i]=as.integer(input_1)
-  i=i+1
+  return((input_1))
+  
   
 }
 
 
 read_region_input <- function(prompt2="What is the region of your interest, 
 Enter your choice (Enter 1 for continent and 2 for country):
-                              1) Continent2) Country")
+                              1) Continent 2) Country")
 { 
   input_1 <- readline(prompt=prompt2)
   if(as.integer(input_1)==1 || as.integer(input_1)==2){
     if(as.integer(input_1)==1){
       #In gbif data there is no field as continent
       input_11<-readline(prompt="Enter the continent of your interest.")
-      Responses[i]=input_11
-      i=i+1
+      return(input_11)
+      
     }
     else{
       input_12<-readline(prompt="Enter the country of your interest.")
-      Responses[i]=input_11
-      i=i+1
+      return(input_12)
+      
     }
     
   }else{
@@ -95,6 +89,7 @@ Enter your choice (Enter 1 for continent and 2 for country):
   
   
 }
+
 
 
 read_dates_input <- function(prompt2=" Do you care about dates of your observations?
@@ -103,12 +98,12 @@ read_dates_input <- function(prompt2=" Do you care about dates of your observati
   input_1 <- readline(prompt=prompt2)
   if(as.integer(input_1)==1 || as.integer(input_1)==2){
     if(as.integer(input_1)==1){
-      Responses[i]="Yes"
-      i=i+1
+      return("Yes")
+      
     }
     else{
-      Responses[i]="No"
-      i=i+1
+      return("No")
+      
     }
     
   }else{
@@ -117,6 +112,9 @@ read_dates_input <- function(prompt2=" Do you care about dates of your observati
   
   
 }
+
+
+
 
 IsDate <- function(mydate, date.format = "%Y-%m-%d") {
   
@@ -129,8 +127,8 @@ read_date_earliest_input <- function(prompt2=" What is the earliest date of your
 { 
   input_1 <- readline(prompt=prompt2)
     if(IsDate(input_1)){
-      Responses[i]=input_1
-      i=i+1
+      return(input_1)
+     
     }
   else{
     stop(paste("The entered date is wrong or else the date format is wrong"))
@@ -138,22 +136,24 @@ read_date_earliest_input <- function(prompt2=" What is the earliest date of your
 }
 
 
-read_taxonomic_input <- function(prompt2="What is the temporal resolution are you interested in?
+
+
+read_temporal_input <- function(prompt2="What is the temporal resolution are you interested in?
 1) Year 2) Month 3) Day")
 { 
   input_1 <- readline(prompt=prompt2)
   if(as.integer(input_1)==1 || as.integer(input_1)==2 || as.integer(input_1)==3 ){
     if(as.integer(input_1)==1){
-      Responses[i]="Year"
-      i=i+1
+      return("Year")
+      
     }
     else if(as.integer(input_1)==2){
-      Responses[i]="Month"
-      i=i+1
+      return("Month")
+      
     }
     else {
-      Responses[i]="Day"
-      i=i+1
+      return("Day")
+      
     }
     
   }else{
@@ -163,8 +163,57 @@ read_taxonomic_input <- function(prompt2="What is the temporal resolution are yo
   
 }
 
+
+
+
+
+# Vector for questions tags.
+Questions<-c("Taxonomic Level","Mistached Names","Spatial Resolution","Region of interest",
+             "Dates","Earliest Date","Temporal Resolution")
+
+Responses<-as.vector(nrow(Questions))
+
+Flags<-c(0)
+
+# Below is the part for running teh whole workflow, run one function at a time then enter the input,
+# then run the next function.
+
+i=1
+Responses[i]<-read_taxonomic_input()
+#  Enter the input
+i=i+1
+
+
+Responses[i]<-read_mismatch_input()
+# Enter the input
+i=i+1
+
+
+Responses[i]<-read_spatial_resolution_input()
+# Enter the input
+i=i+1
+
+
+Responses[i]<-read_region_input()
+# Enter the input
+i=i+1
+
+Responses[i]<-read_dates_input()
+# Enter the input
+i=i+1
+
+
+Responses[i]<-read_date_earliest_input()
+# Enter the input
+i=i+1
+
+Responses[i]<-read_temporal_input()
+# Enter the input
+i=i+1
+
+
 # Now I will pass this below data frame to the output section. I have intoduced a flag column which will 
 # maintain record for the tests passed.
 # Combining all the vectors into data frame.
-report_questions_answers<-data.frame(questions,responses,flags)
+report_questions_answers<-data.frame(Questions,Responses,Flags)
 View(report_questions_answers)
