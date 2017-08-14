@@ -64,3 +64,6 @@ View(data_subset)
 # it will display an message saying enter choice from given list.
 
 menu(c("Yes", "No"), title="Do you want this?")
+
+
+help(TDist)
