@@ -7,7 +7,7 @@ options<-list(taxoLevel=data.frame(choice=c(1,2,3,4),value=c("Sub-species", "Spe
 
 
 Quest<-read.csv("C:\\quest.csv")
-
+View(Quest)
 
 data<-input_function(quest = Quest)
 View(data)
@@ -15,7 +15,7 @@ View(data)
 
 
 # Functions for input.
-IsDate <- function(mydate, date.format = "%Y-%m-%d") {
+is_date <- function(mydate, date.format = "%Y-%m-%d") {
   
   tryCatch(!is.na(as.Date(mydate, date.format)),  
            error = function(err) {FALSE})  
@@ -38,7 +38,7 @@ for (i in 1:nrow(quest)){
 
   if(quest[i,3]=="Date"){
     
-    if(IsDate(rval)){
+    if(is_date(rval)){
       res[i]=rval
       
     }
