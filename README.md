@@ -1,7 +1,7 @@
 # BiodiversitydatacleaningGSoC17
 GSoC 2017 -Biodiversitydatacleaning
 
-Currently there are three tasks in the package:-
+Currently there are four parts in the package:-
 
 # 1) DwC Summary Table:-
 
@@ -266,6 +266,40 @@ hasCoordinate = T
 X5<-d$data
 Outlier_Detection(X5)
 ```
+
+
+# 4) User-Level Workflow
+
+This is a very new concept ot summarize the data particularly required by the user. In this workflow there will be certain set of questions which the user will have to answer and then based on the responses several data checks will be initiated and after that the final filtered and flagged data will be given to the user with the summary of all the questions.
+
+
+Currently there are only few below questions. We will be adding more questions further.
+
+
+1) What is the lowest taxonomic level you require in your data.
+- Sub-species
+- Species
+- Genus
+- Family
+
+2) What you want to do with data with mismatched names.
+- Try to match
+- Remove
+
+3) What is the spatial resolution required for your data (in meters).
+-
+
+4) Do you care about dates of your observations?
+-Yes
+-No
+
+5) What is the earliest date of your observations in this data set
+- Date
+
+6) What is the temporal resolution are you interested in?
+- Year
+- Month
+- Day
 
 
 More functions will be added in future for Biodiveristy Data Cleaning.
