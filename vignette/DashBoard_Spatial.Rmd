@@ -1,0 +1,174 @@
+---
+title: "Dashboard_DwC_spatial"
+author: "Ashwin Agrawal"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    social: menu
+    source_code: embed
+runtime: shiny
+---
+
+```{r global, include=FALSE}
+# load data in 'global' chunk so it can be shared by all users of the dashboard
+suppressMessages(library(rgbif))
+suppressMessages(library(sp))
+suppressMessages(library(spatialEco))
+suppressMessages(library(ggmap))
+suppressMessages(library(plyr))
+suppressMessages(library(htmlTable))
+suppressMessages(library(bdvis))
+suppressMessages(library(plotly))
+suppressMessages(library(pracma))
+suppressMessages(library(xtable))
+suppressMessages(library(htmlTable))
+d1 <- occ_data(
+  country = "AU",     # Country code for australia
+  classKey= 359,      # Class code for mammalia
+  limit=50000,
+  hasCoordinate = T
+  
+)
+
+X<-d1$data
+
+
+
+```
+
+Inputs {.sidebar}
+-----------------------------------------------------------------------
+
+```{r}
+ selectInput("clusterNum", label = h3("Cluster number"), 
+    choices = list( "10" = 10, "100" = 100, "1000" = 1000, "10000" = 10000,"100000" = 100000), 
+    selected = 1)
+```
+
+Plotting the data based on coordinate uncertainity in meters  of the position.
+Sample data used is Australian Mammals.
+
+
+```{r}
+ selectInput("clusterNum1", label = h3("Cluster number"), 
+    choices = list( "1e-01" = 1e-01, "1e-02" = 1e-02, "1e-03" = 1e-03, "1e-04" = 1e-04,"1e-05" = 1e-05,"1e-06"=1e-06,"1e-07"=1e-07,"1e-08"=1e-08,"1e-09"=1e-09), 
+    selected = 1e-05)
+```
+
+Plotting the data based on coordinate precision of the position.
+Sample data used is Australian Mammals.
+
+```{r}
+selectedData <- reactive({
+  
+  num <- reactive(as.integer(input$clusterNum))
+  coordinate_uncertainity_meters_data<-subset(X,X$coordinateUncertaintyInMeters<num())
+    
+    c_2<-ddply(coordinate_uncertainity_meters_data,~coordinateUncertaintyInMeters,summarise,number_of_distinct_orders=length((coordinateUncertaintyInMeters)))
+    
+    c_2
+})
+```
+
+```{r}
+selectedData1 <- reactive({
+  
+  num1 <- reactive(as.double(input$clusterNum1))
+  coordinate_precision_data<-subset(X,X$coordinatePrecision<=num1())
+    
+    c_1<-ddply(coordinate_precision_data,~coordinatePrecision,summarise,number_of_distinct_orders=length((coordinatePrecision)))
+    
+    c_1
+})
+```
+
+
+Row{.tabset}
+-----------------------------------------------------------------------
+
+### map
+    
+```{r}
+  num <- reactive(as.integer(input$clusterNum))
+  renderPlot({
+  mapgilbert <- get_map(location = c(lon = mean(X$decimalLongitude), lat = mean(X$decimalLatitude)), zoom = 4,
+                        maptype = "terrain", scale = 2)
+    
+  
+  #Plotting with coordinateuncertainityinmeters
+  
+  coordinate_uncertainity_meters_data<-subset(X,X$coordinateUncertaintyInMeters<num())
+  if(nrow(coordinate_uncertainity_meters_data)>0)
+  {
+  map_1<-ggmap(mapgilbert) +
+    geom_point(data = coordinate_uncertainity_meters_data, aes(x = decimalLongitude, y = decimalLatitude, alpha = 0.5, size =coordinateUncertaintyInMeters, colour= coordinateUncertaintyInMeters ),shape=20)
+  print(map_1)
+    } else{
+    
+    map_2<-ggmap(mapgilbert) +
+    geom_point(data = X, aes(x = decimalLongitude, y = decimalLatitude, alpha = 0.5, size =coordinateUncertaintyInMeters, colour= coordinateUncertaintyInMeters ),shape=20)
+  print(map_2)
+    }
+ 
+  
+  })
+  
+```
+
+
+
+### plot
+
+
+```{r}
+library(ggplot2)
+
+renderPlot({
+  ggplot(selectedData(), aes(x=coordinateUncertaintyInMeters,y=number_of_distinct_orders)) + geom_bar(stat="identity")
+})
+```
+
+
+Row{.tabset}
+-----------------------------------------------------------------------
+
+### map
+    
+```{r}
+  num1 <- reactive(as.integer(input$clusterNum1))
+  renderPlot({
+  mapgilbert <- get_map(location = c(lon = mean(X$decimalLongitude), lat = mean(X$decimalLatitude)), zoom = 4,
+                        maptype = "terrain", scale = 2)
+    
+  
+  #Plotting with coordinatePrecision
+  
+  coordinate_precision_data<-subset(X,X$coordinatePrecision<=num1())
+  if(nrow(coordinate_precision_data)>0)
+  {
+  map_1<-ggmap(mapgilbert) +
+    geom_point(data = coordinate_precision_data, aes(x = decimalLongitude, y = decimalLatitude, alpha = 0.5, size =coordinatePrecision, colour=coordinatePrecision ),shape=20)
+  print(map_1)
+    } else{
+    
+    map_2<-ggmap(mapgilbert) +
+    geom_point(data = X, aes(x = decimalLongitude, y = decimalLatitude, alpha = 0.5, size =coordinatePrecision, colour=coordinatePrecision ),shape=20)
+  print(map_2)
+    }
+ 
+  
+  })
+  
+```
+
+
+### plot
+
+
+```{r}
+library(ggplot2)
+
+renderPlot({
+  ggplot(selectedData1(), aes(x=coordinatePrecision,y=number_of_distinct_orders)) + geom_bar(stat="identity")
+})
+```
