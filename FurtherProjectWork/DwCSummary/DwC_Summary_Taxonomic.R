@@ -1,3 +1,50 @@
+
+
+#' @description 
+#' Below is the basic outline how I plan to build the taxonomic bdsummary function  
+#' Some of the parts are not completed because it the outline and moreover the  
+#' remaining part which is not coded is quite similar to the coded part. 
+#' More wraper functions can be developed to enhance the visualizing capability 
+#' of the plots and tables. 
+#'
+#' Here first I will check what is the query of the user and accordingly I will
+#' check if user is querring something specific, then I will subset the data set 
+#' according to the need and accordingly I will omit that particluar field statistic 
+#' as it has already been fixed by the user.
+#' For example like user selects that he/she wants a specific species statistic 
+#' like name="Antechinus stuartii", therefore I will omit the "name" field from 
+#' the summary. If there are no specific query by the user I will show all summary 
+#' statistics. This will account for all premutation and combination possible.
+#' 
+#'
+#' @param X (data.frame) biodiversity data set
+#' @param NAME (character) scientific name field
+#' @param COUNTRYCODE  (character) ISO 2 letter unique code of every country
+#' @param BASIS_OF_RECORD (character)  basisOfRecord field in biodiversity data. (Values like specimen, fossil etc.)
+#' @param KINGDOM (character) Specifies the kingdom of species (values like anamalia,reptilia)
+#' 
+#' 
+#' 
+#' 
+#' @example 
+#' 
+#'
+#' d1 <- occ_data(
+#'   country = "AU",     # Country code for australia
+#'   classKey= 359,      # Class code for mammalia
+#'  
+#'   limit=5000,
+#'  
+#'  hasCoordinate = T
+#'  
+#' )
+#'
+#' X<-d1$data
+#' 
+#' bdsummary_taxonomic(X)
+
+
+
 bdsummary_taxonomic<-function(X, NAME=NULL, 
                               COUNTRYCODE=NULL,
                               BASIS_OF_RECORD=NULL,
@@ -15,25 +62,7 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
                               LIMIT=NULL
                               ){
 
-##################    
-# Below is the basic outline how I plan to build the taxonomic bdsummary function  
-# Some of the parts are not completed because it the outline and moreover the  
-# remaining part which is not coded is quite similar to the coded part. 
-# More wraper functions can be developed to enhance the visualizing capability 
-# of the plots and tables. 
-#############  
-# Here first I will check what is the query of the user and accordingly I will
-# check if user is querring something specific, then I will subset the data set 
-# according to the need and accordingly I will omit that particluar field statistic 
-# as it has already been fixed by the user.
-# For example like user selects that he/she wants a specific species statistic 
-# like name="Antechinus stuartii", therefore I will omit the "name" field from 
-# the summary. If there are no specific query by the user I will show all summary 
-# statistics. This will account for all premutation and combination possible.
-# For the rmarkdown file I have used htmlTables or xtable package as it easy to
-# implement and easy to customize. I am also exploring the markdown table and pandoc.
-# I have also filtered bar chart and htmlTable with a barrier of 50 rows.
-#############  
+ 
   
   #Name="Antechinus stuartii"
   #X$kin
@@ -546,21 +575,3 @@ bdsummary_taxonomic<-function(X, NAME=NULL,
   
   
 }
-
-#EXAMPLE
-
-d1 <- occ_data(
-  country = "AU",     # Country code for australia
-  classKey= 359,      # Class code for mammalia
-  from = 'gbif',
-  limit=50000,
-  minimal=FALSE,
-  hasCoordinate = T
-  
-)
-
-X<-d1$data
-
-bdsummary_taxonomic(X)
-
-

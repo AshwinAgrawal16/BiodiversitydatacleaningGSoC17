@@ -22,6 +22,8 @@
 #' Z<-CountryCheck(x,countries)
 #' View(Z)
 #' 
+#' @description 
+#' This function checks the country field by georefrencing the coordinates on standard data from naturalearth
 #' 
 #' 
 CountryCheck <- function(x, countries, poly = NULL) {

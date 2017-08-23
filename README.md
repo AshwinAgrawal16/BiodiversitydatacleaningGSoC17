@@ -1,6 +1,36 @@
 # BiodiversitydatacleaningGSoC17
 GSoC 2017 -Biodiversitydatacleaning
 
+
+#Introduction
+
+There are an increasing number of scientists using R for their data analyses, however, the skill set required to handle biodiversity data in R, is considerably varies. Since, users need to retrieve, manage and assess high volume data with complex structure (Darwin Core standard, DwC); only users with an extremely sound R programming background can attempt this. Recently, various R packages dealing with biodiversity data and specifically data cleaning have been published (e.g. scrubr, biogeo, rgeospatialquality, assertr , and taxize). Though numerous new procedures are now available, implementing them requires users to prepare the data according to the formats of each of these packages and learning each R package. Dealing with the integration related tasks which would facilitate the data format conversions and smooth execution of all the available data cleaning functions from various packages, is being addressed in another GSOC project (link). The purpose of my project is to identify and address missing crucial functionalities for handling biodiversity (big) data in R. Properly addressing these gaps will hopefully enable us to offer a more complete framework for data quality assessment in R.
+
+#Proposed components
+
+# 1. Standardized flagging system:
+
+Biodiversity quality assessment is based upon a user capability to execute variety of data checks. Thus, a well-designed flagging system will allow users to easily manage their data checks result, and facilitate control on the desired quality level on one hand, and user flexibility on the other hand. I will assess several approaches for designing such a system, factoring comprehensibility and programming complexity.
+
+Any insights and ideas regarding this task will be highly appreciated (please create a github issues).
+
+# 2. A DwC summary table:
+
+When dealing with high complexity and high-volume data, summary statistics of different fields and categories, can have an immense value. I will develop a DwC summary table based on DwC fields and vocabulary. First, I will explore different R packages dealing with descriptive statistics and table visualizations. Then, I will map key DwC data fields and key categories for easy faceting of the summary table. In addition, the developed framework can be used to enhance the flagging system, by utilizing it unique functionality to summarize the data quality checks results.
+
+# 3. Outliers analysis:
+
+Identifying spatial, temporal, and environmental outliers can single out erroneous records. However, identifying an outlier is a subjective exercise, and not all outliers are errors.  I will develop a set of functions which will aid in detection of outliers. Various statistical methods and techniques will be evaluated (e.g. Reverse Jackknife, Standard Deviations from the Mean, Alphahull).
+
+# 4. Developing new data quality checks and procedure
+
+I will identify critically missing spatial, taxonomic and temporal data cleaning routines, factoring users need level and programming complexity.  Ideas and needs regarding this task will be highly appreciated (please create a github issues).
+
+# Significance
+
+Improving the quality of biodiversity research, in some measure, is based on improving user-level data cleaning tools and skills. Adopting a more comprehensive approach for incorporating data cleaning as part of data analysis will not only improve the quality of biodiversity data, but will impose a more appropriate usage of such data. This can greatly serve the scientific community and consequently our ability to address more accurately urgent conservation issues.
+
+
 Currently there are four parts in the package:-
 
 # 1) DwC Summary Table:-
