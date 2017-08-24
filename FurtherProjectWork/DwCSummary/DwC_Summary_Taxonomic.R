@@ -22,13 +22,20 @@
 #' @param COUNTRYCODE  (character) ISO 2 letter unique code of every country
 #' @param BASIS_OF_RECORD (character)  basisOfRecord field in biodiversity data. (Values like specimen, fossil etc.)
 #' @param KINGDOM (character) Specifies the kingdom of species (values like anamalia,reptilia)
-#' 
-#' 
+#' @param PHYLUM  (character)
+#' @param ORDER   (character)
+#' @param FAMILY  (character)
+#' @param GENUS   (character)
+#' @param CLASS   (character)
+#' @param SPECIFICEPITHET  (character)
+#' @param VERNACULARNAME   (character)
+#' @param INSTITUTIONCODE  (character)
+#' @param COLLECTIONCODE   (character)
+#' @param TAXONRANK        (character)
+#' @param LIMIT            (integer)  The number of records to be downloaded from GBIF
 #' 
 #' 
 #' @example 
-#' 
-#'
 #' d1 <- occ_data(
 #'   country = "AU",     # Country code for australia
 #'   classKey= 359,      # Class code for mammalia

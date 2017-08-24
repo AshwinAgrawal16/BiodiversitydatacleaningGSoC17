@@ -1,12 +1,12 @@
 # BiodiversitydatacleaningGSoC17
-GSoC 2017 -Biodiversitydatacleaning
+# GSoC 2017 -Biodiversitydatacleaning
 
 
-#Introduction
+# Introduction
 
 There are an increasing number of scientists using R for their data analyses, however, the skill set required to handle biodiversity data in R, is considerably varies. Since, users need to retrieve, manage and assess high volume data with complex structure (Darwin Core standard, DwC); only users with an extremely sound R programming background can attempt this. Recently, various R packages dealing with biodiversity data and specifically data cleaning have been published (e.g. scrubr, biogeo, rgeospatialquality, assertr , and taxize). Though numerous new procedures are now available, implementing them requires users to prepare the data according to the formats of each of these packages and learning each R package. Dealing with the integration related tasks which would facilitate the data format conversions and smooth execution of all the available data cleaning functions from various packages, is being addressed in another GSOC project (link). The purpose of my project is to identify and address missing crucial functionalities for handling biodiversity (big) data in R. Properly addressing these gaps will hopefully enable us to offer a more complete framework for data quality assessment in R.
 
-#Proposed components
+# Proposed components
 
 # 1. Standardized flagging system:
 
