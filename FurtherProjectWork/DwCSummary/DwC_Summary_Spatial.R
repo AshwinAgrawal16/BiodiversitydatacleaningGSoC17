@@ -9,7 +9,8 @@
 #' @param  COORDINATEUNCERTAINITYINMETERS (double)
 #' @param  COUNTRYCODE (char)
 #'
-#'
+#' @export
+#' 
 #' @description 
 #' DwC summary table.
 #' When dealing with large volume of data if initially some information about the 
@@ -196,7 +197,7 @@ nearest_neighour_index<-function(X){
   
   cat(paste("The plot for kernel density","\n"))
   plot(kde$kde)
-  plot(sp.mydata, pch=20, cex=0.75, col="red", add=TRUE)
+  plot(sp_mydata, pch=20, cex=0.75, col="red", add=TRUE)
   title(main = "Plot for kernel density")
   
   cat(paste("The bandwidth for the kernel density is","\n"))
@@ -346,5 +347,4 @@ DwC_Summary_spatial<-function(X,DECIMALLATITUDE=NULL,
   }
   
 }
-
 
