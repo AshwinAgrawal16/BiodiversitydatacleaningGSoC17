@@ -35,6 +35,9 @@ Currently there are four parts in the package:-
 
 # 1) DwC Summary Table:-
 
+The description of all the commits and functions is at:-
+[https://docs.google.com/a/itbhu.ac.in/presentation/d/1Se1-uSOjqHTUrlfDC2UjgrZTPvdvc0etJzO16026T0E/edit?usp=sharing][DwCSUmmary]
+
 This contains 3 funtions and 2 shiny flexboards.
 
 Use cases for testing the functions:-
@@ -95,6 +98,11 @@ DwC_Summary_Temporal(X,DAY=10)
 ```
 
 # 2) Flagging System
+
+The description of all the commits and functions are at:-
+[https://docs.google.com/a/itbhu.ac.in/document/d/1zoxXjUEM3zqATbCjrkjWgvMMc19yI8bQZMYNmHOxmIQ/edit?usp=sharing][FlaggingSystem1]
+
+[https://docs.google.com/presentation/d/1DrmHwz5O_tUu5QcixPE0EHv3HnYNN5AmXVBSXCzPhwU/edit?usp=sharing][FlaggingSystem2]
 
 This conatains various functions which assist in flagging and filtering of biodiveristy data based on taxonomic, spatial, temporal nad geo-spatial parameters.
 
@@ -227,6 +235,9 @@ ToDo:- Add use cases for 3 remaining functions in Geo_Spatial_Flaggging
 
 # 3) Outlier Analysis
 
+The description of all the commits and functions is at:-
+[https://docs.google.com/a/itbhu.ac.in/document/d/1fWGCMY5L7U82Q0TmQovYAKSRB-F0tJr5JCqHCy8qbZA/edit?usp=sharing][OutlierAnalysis]
+
 Outlier analysis is a major preprocessing task done before any data analysis is done. Biodiversity data is huge in volume therefore this task becomes much more important.
 I have used Alpha Hull and Reverse-Jack-Knife to identify the outliers.
 
@@ -299,6 +310,9 @@ Outlier_Detection(X5)
 
 
 # 4) User-Level Workflow
+
+The description of all the commits and functions is at:-
+[https://docs.google.com/document/d/1yNKP1nXzX8cPeag097VDm4ASMS533XB_B8C2cYZGDG0/edit][UserWorkflow]
 
 This is a very new concept ot summarize the data particularly required by the user. In this workflow there will be certain set of questions which the user will have to answer and then based on the responses several data checks will be initiated and after that the final filtered and flagged data will be given to the user with the summary of all the questions.
 
