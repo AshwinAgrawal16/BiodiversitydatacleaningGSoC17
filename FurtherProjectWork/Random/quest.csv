@@ -1,0 +1,7 @@
+"","qvar","question","rtype","rlimit","mtype"
+"1","taxoLevel","What is the lowest taxonomic level you require in your data? ","I_Numeric",4,"m"
+"2","misNames","What you want to do with data with mismatched names? ","I_Numeric",2,"m"
+"3","spatialResolution","What is the spatial resolution required for your data ","Numeric",0,"v"
+"4","dateCheck","Do you care about dates of your observations","I_Numeric",2,"m"
+"5","earliestDate","What is the earliest date of your observations in this data set (date format-> %Y-%m-%d) ","Date",0,"v"
+"6","temporalResolution","What temporal resolution are you interested in? ","I_Numeric",3,"m"
